@@ -1,16 +1,21 @@
+# f0Effect - Minecraft plugin that adds unique effects for players after killing another player in the arena.
 # f0Effect - plugin do Minecrafta, ktory dodaje unikalne efekty dla graczy po zabiciu innego gracza na arenie.
+
+# This configuration file contains settings for the database, sounds, messages, GUI, and available effects.
 # Ten plik konfiguracyjny zawiera ustawienia dotyczace bazy danych, dzwiekow, wiadomosci, GUI oraz efektow dostepnych w pluginie.
 
+# MySQL database configuration, which stores information about players, their effects, and upgrades.
 # Konfiguracja bazy danych MySQL, ktora przechowuje informacje o graczach, ich efektach oraz ulepszeniach.
 
 mysql:
   host: "localhost"
   port: 3306
-  database: "minecraft"
-  username: "minecraft"
-  password: "mc123"
+  database: "dbname"
+  username: "dbusername"
+  password: "password"
   table_prefix: "f0effects_"
 
+# Configuration of sounds played during various actions, such as effect activation, upgrade purchase, or lack of funds.
 # Konfiguracja dzwiekow odtwarzanych podczas roznych akcji, takich jak aktywacja efektu, zakup ulepszenia, czy brak srodkow do zakupu.
 
 sounds:
@@ -31,6 +36,7 @@ sounds:
     volume: 1.0
     pitch: 0.5
 
+# Configuration of messages displayed to players, such as lack of permissions, effect activation, or successful upgrades.
 # Konfiguracja wiadomosci wyswietlanych graczom podczas korzystania z pluginu, takich jak brak uprawnien, aktywacja efektu, brak srodkow do zakupu ulepszenia, czy zakup ulepszenia.
 
 messages:
@@ -39,6 +45,7 @@ messages:
   not-enough-money: "&#FF0000✖ Brak srodkow! &7Potrzebujesz &#FFD700%cost%$&7, aby to kupic."
   level-up: "&#FFD700⭐ &aZakupiono ulepszenie %effect% &a(Poziom &e%level%&a)!"
 
+# Configuration of the GUI where players select effects after a kill and the upgrade shop menu.
 # Konfiguracja GUI, w ktorym gracze wybieraja efekty po zabiciu innego gracza oraz menu sklepu z ulepszeniami.
 
 gui:
@@ -70,6 +77,7 @@ gui:
       material: "BARRIER"
       name: "&#FF0000✖ &lZamknij menu"
 
+# Configuration of the upgrade shop where players can invest currency to increase duration and power.
 # Konfiguracja menu sklepu z ulepszeniami, gdzie gracze moga inwestowac swoja walute, aby zwiekszyc czas trwania i moc swoich efektow.
 
   upgrade:
@@ -102,6 +110,7 @@ gui:
       material: "BARRIER"
       name: "&#FF0000✖ &lZamknij menu"
 
+# Configuration of the effects that players can activate after killing another player.
 # Konfiguracja efektow, ktore gracze moga aktywowac po zabiciu innego gracza.
 
 effects:
