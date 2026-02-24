@@ -7,76 +7,126 @@
   <img src="https://img.shields.io/badge/Minecraft-1.19+-blue.svg">
   <img src="https://img.shields.io/badge/Platform-Spigot%20%7C%20Paper-blue">
   <img src="https://img.shields.io/badge/Storage-MySQL-blue">
-  <img src="https://img.shields.io/badge/License-MIT-blue">
   <img src="https://img.shields.io/badge/Status-Active%20Development-blue">
+  <img src="https://img.shields.io/badge/Style-Clean%20Blue%20UI-blue">
 </p>
 
 ---
 
 ## ✨ Overview
 
-**f0Effect** is a lightweight but powerful PvP arena plugin that grants temporary combat effects after killing another player.
+**f0Effect** is a competitive PvP plugin that grants temporary combat effects after killing another player.
 
 Each effect can be upgraded:
+
 - Higher level → stronger amplifier  
 - Higher level → shorter duration  
-- Higher level → higher cost  
+- Higher level → significantly higher cost  
 
-Designed for competitive servers where balance, speed and clean UI matter.
+The system is built for fast arena gameplay and clean visual feedback.
 
 ---
 
-# 🎮 Main Effect Selection GUI
+# 🎮 Effect Selection GUI
 
 <p align="center">
-  <img src="images/gui-selection.png" alt="Effect Selection GUI" width="800"/>
+  <img src="images/ef_active.jpg" width="800"/>
 </p>
 
-### What players can do:
+### Clean and Minimal Layout
+
+Players can:
+
 - Select one active effect
-- View their current upgrade level
-- Access the upgrade shop
-- Read system explanation
+- See current upgrade level
+- Instantly activate it
+- Navigate to upgrade shop
 
-Minimal layout. Fast interaction. Clear feedback.
+Simple layout. No clutter. Immediate feedback.
 
 ---
 
-# ⬆ Upgrade Shop GUI
+# 📘 About Effects Panel
 
 <p align="center">
-  <img src="images/gui-upgrades.png" alt="Upgrade Shop GUI" width="800"/>
+  <img src="images/ef_info.jpg" width="800"/>
 </p>
 
-### Upgrade Logic
+Short explanation directly inside GUI.
 
-| Level | Duration | Power | Cost |
-|-------|----------|--------|------|
-| I     | 10s      | Base   | Low  |
-| II    | 7s       | Medium | High |
-| III   | 5s       | High   | Very High |
+Clear information:
+- Effects activate after killing a player
+- Designed for arena PvP
+- Fast-paced combat boost system
 
-This ensures:
-- No long-term snowballing
-- Short but impactful bursts
-- High skill ceiling
+---
+
+# ⬆ Upgrade Shop
+
+<p align="center">
+  <img src="images/us_info.jpg" width="800"/>
+</p>
+
+### Upgrade Philosophy
+
+Higher level means:
+
+- More power  
+- Shorter duration  
+- Higher investment  
+
+Levels must be purchased in order.
+
+---
+
+## 💰 Purchasing Example
+
+<p align="center">
+  <img src="images/us_buy.jpg" width="800"/>
+</p>
+
+- Duration displayed clearly
+- Cost shown directly
+- One-click purchase
+
+---
+
+## 🔒 Locked Level Example
+
+<p align="center">
+  <img src="images/us_levelneeded.jpg" width="800"/>
+</p>
+
+If a previous level is missing, purchase is blocked automatically.
+
+Prevents skipping progression.
+
+---
+
+## ✅ Already Owned Level
+
+<p align="center">
+  <img src="images/us_own.jpg" width="800"/>
+</p>
+
+Clear feedback when player already owns the upgrade.
 
 ---
 
 # 📊 BossBar Display
 
 <p align="center">
-  <img src="images/bossbar.png" alt="BossBar Preview" width="800"/>
+  <img src="images/bossbar.jpg" width="900"/>
 </p>
 
-When an effect is active:
+When effect activates:
 
 - Blue BossBar appears
 - Displays effect name
-- Displays level
-- Automatically disappears
+- Displays current level
+- Automatically disappears after duration
 
-Fully configurable color and style.
+Fully configurable in `config.yml`.
 
 ---
 
@@ -87,9 +137,16 @@ Fully configurable color and style.
 | ⚡ SPEED        | Movement boost after kill |
 | 🛡 RESISTANCE   | Damage reduction |
 | ❤ REGENERATION | Health recovery |
-| ⚔ STRENGTH     | Increased attack power |
+| ⚔ STRENGTH     | Increased attack damage |
 
-All durations are measured in ticks.  
+### Default Duration Scaling
+
+| Level | Duration |
+|--------|----------|
+| I      | 10 seconds |
+| II     | 7 seconds |
+| III    | 5 seconds |
+
 20 ticks = 1 second.
 
 ---
@@ -98,14 +155,14 @@ All durations are measured in ticks.
 
 Fully customizable:
 
-- Messages (HEX colors supported)
-- GUI layout and materials
+- Messages (HEX color support)
+- GUI layout
 - Sounds
 - MySQL database
-- Effect costs and scaling
-- BossBar style and color
+- BossBar style
+- Effect cost and amplifier scaling
 
-### Official References
+Official references:
 
 Materials:  
 https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html  
@@ -117,15 +174,12 @@ https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
 
 # 🛠 Installation
 
-1. Drop the plugin into `/plugins`
-2. Restart the server
-3. Edit `config.yml`
+1. Place plugin into `/plugins`
+2. Restart server
+3. Configure `config.yml`
 4. Done
 
-Supports modern Spigot and Paper builds.
-
----
-Clean modular design for easier maintenance and future expansion.
+Supports modern Spigot and Paper versions.
 
 ---
 
@@ -134,44 +188,32 @@ Clean modular design for easier maintenance and future expansion.
 ### Planned Features
 
 - [ ] PlaceholderAPI support  
-- [ ] Vault economy integration improvements  
-- [ ] Per-arena effect configuration  
-- [ ] Cooldown system  
-- [ ] Statistics tracking (kills with effect active)  
-- [ ] Effect particle customization  
-- [ ] Redis support for network servers  
+- [ ] Per-arena configuration  
+- [ ] Effect cooldown system  
+- [ ] Player statistics tracking  
+- [ ] Particle customization  
+- [ ] Transferring the remaining messages to the config 
 
 ---
 
 # 📈 Why f0Effect?
 
-- Built for PvP balance
-- Short, impactful mechanics
-- No unnecessary complexity
-- Clean GUI
+- Competitive balance focused
+- Short but impactful mechanics
+- Clean modern GUI
 - Clear feedback system
-- Competitive-focused design
+- Lightweight and scalable
+
+Built for serious PvP servers.
 
 ---
 
 # 📜 License
 
-MIT License  
-You are free to modify and redistribute.
-
----
-
-# 🤝 Support
-
-If you encounter issues:
-
-- Open a GitHub issue
-- Provide server version
-- Provide plugin version
-- Attach console logs
+MIT License
 
 ---
 
 <p align="center">
-  Made for competitive Minecraft servers.
+  Designed for competitive Minecraft environments.
 </p>
