@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="images/banner.png" alt="f0Effect Banner" width="900"/>
-</p>
-
 <h1 align="center">⚔ f0Effect</h1>
 <p align="center">
   Advanced Kill Effect System for Competitive Minecraft PvP Servers
