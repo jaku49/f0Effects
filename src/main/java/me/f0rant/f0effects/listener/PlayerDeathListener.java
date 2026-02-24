@@ -44,6 +44,7 @@ public class PlayerDeathListener implements Listener {
 
         if (type != null) {
             player.addPotionEffect(new PotionEffect(type, duration, amplifier));
+            plugin.getBossBarManager().showBossBar(player, effectName, level, duration);
         }
     }
 }

@@ -25,24 +25,23 @@ public class DatabaseManager {
         String database = plugin.getConfig().getString("mysql.database");
         String username = plugin.getConfig().getString("mysql.username");
         String password = plugin.getConfig().getString("mysql.password");
-        this.tablePrefix = plugin.getConfig().getString("mysql.table_prefix", "f0ranking_");
+        this.tablePrefix = plugin.getConfig().getString("mysql.table_prefix", "f0effects_");
 
-        // Konfiguracja puli połączeń HikariCP
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true&useSSL=false");
         config.setUsername(username);
         config.setPassword(password);
-        config.setMaximumPoolSize(10); // Max 10 jednoczesnych połączeń
-        config.setMinimumIdle(2); // Zawsze 2 połączenia w gotowości
-        config.setConnectionTimeout(10000); // 10 sekund timeoutu
+        config.setMaximumPoolSize(10);
+        config.setMinimumIdle(2); 
+        config.setConnectionTimeout(10000); 
 
         dataSource = new HikariDataSource(config);
 
         try {
             createTable();
-            plugin.getLogger().info("Podlaczono do bazy MySQL (HikariCP - Zoptymalizowano)!");
+            plugin.getLogger().info("Successfully connected to MySQL database!");
         } catch (SQLException e) {
-            plugin.getLogger().severe("Blad podczas laczenia z MySQL!");
+            plugin.getLogger().severe("Error connecting to MySQL database!");
             e.printStackTrace();
         }
     }
@@ -50,7 +49,7 @@ public class DatabaseManager {
     public void disconnect() {
         if (dataSource != null && !dataSource.isClosed()) {
             dataSource.close();
-            plugin.getLogger().info("Rozlaczono z baza MySQL.");
+            plugin.getLogger().info("Disconnected from MySQL database.");
         }
     }
 
@@ -59,10 +58,12 @@ public class DatabaseManager {
              PreparedStatement ps = conn.prepareStatement(
                      "CREATE TABLE IF NOT EXISTS " + tablePrefix + "data (" +
                              "uuid VARCHAR(36) PRIMARY KEY, " +
+                             "nickname VARCHAR(16), " +
                              "selected_effect VARCHAR(32), " +
                              "speed_level INT DEFAULT 0, " +
                              "resistance_level INT DEFAULT 0, " +
-                             "regeneration_level INT DEFAULT 0" +
+                             "regeneration_level INT DEFAULT 0, " +
+                             "strength_level INT DEFAULT 0" +
                              ")")) {
             ps.executeUpdate();
         }
@@ -71,12 +72,14 @@ public class DatabaseManager {
     public void savePlayerSync(PlayerData data) {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(
-                     "REPLACE INTO " + tablePrefix + "data (uuid, selected_effect, speed_level, resistance_level, regeneration_level) VALUES (?, ?, ?, ?, ?)")) {
+                     "REPLACE INTO " + tablePrefix + "data (uuid, nickname, selected_effect, speed_level, resistance_level, regeneration_level, strength_level) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
             ps.setString(1, data.getUuid().toString());
-            ps.setString(2, data.getSelectedEffect());
-            ps.setInt(3, data.getLevel("SPEED"));
-            ps.setInt(4, data.getLevel("RESISTANCE"));
-            ps.setInt(5, data.getLevel("REGENERATION"));
+            ps.setString(2, data.getNickname());
+            ps.setString(3, data.getSelectedEffect());
+            ps.setInt(4, data.getLevel("SPEED"));
+            ps.setInt(5, data.getLevel("RESISTANCE"));
+            ps.setInt(6, data.getLevel("REGENERATION"));
+            ps.setInt(7, data.getLevel("STRENGTH"));
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,10 +93,12 @@ public class DatabaseManager {
             ps.setString(1, data.getUuid().toString());
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
+                    data.setNickname(rs.getString("nickname"));
                     data.setSelectedEffect(rs.getString("selected_effect"));
                     data.setLevel("SPEED", rs.getInt("speed_level"));
                     data.setLevel("RESISTANCE", rs.getInt("resistance_level"));
                     data.setLevel("REGENERATION", rs.getInt("regeneration_level"));
+                    data.setLevel("STRENGTH", rs.getInt("strength_level"));
                 }
             }
         } catch (SQLException e) {

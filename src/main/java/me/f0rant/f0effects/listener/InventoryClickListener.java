@@ -28,7 +28,6 @@ public class InventoryClickListener implements Listener {
         String viewTitle = event.getView().getTitle();
         int slot = event.getSlot();
 
-        // LOGIKA GŁÓWNEGO MENU (Wybór efektu)
         if (viewTitle.equals(mainTitle)) {
             event.setCancelled(true);
             
@@ -52,7 +51,7 @@ public class InventoryClickListener implements Listener {
                             .replace("%effect%", plugin.getConfig().getString("effects." + key + ".name"));
                     player.sendMessage(ColorUtil.color(message));
                     
-                    playConfigSound(player, "effect-selected"); // Odtworzenie dźwięku wyboru
+                    playConfigSound(player, "effect-selected"); 
                     
                     plugin.getEffectGUI().open(player);
                     return;
@@ -60,7 +59,6 @@ public class InventoryClickListener implements Listener {
             }
         } 
         
-        // LOGIKA MENU ULEPSZEŃ
         else if (viewTitle.equals(upgTitle)) {
             event.setCancelled(true);
 
@@ -84,15 +82,15 @@ public class InventoryClickListener implements Listener {
 
                     // Posiada już ten poziom
                     if (currentLevel >= clickedLevel) {
-                        player.sendMessage(ColorUtil.color("&#ff0000Posiadasz juz to ulepszenie!"));
-                        playConfigSound(player, "missing-previous-level"); // Dźwięk błędu
+                        player.sendMessage(ColorUtil.color("&#ff0000You have already unlocked this level!"));
+                        playConfigSound(player, "missing-previous-level"); 
                         return;
                     }
 
                     // Próba zakupu z pominięciem poziomu
                     if (currentLevel != clickedLevel - 1) {
-                        player.sendMessage(ColorUtil.color("&#ff0000Musisz najpierw kupic poprzedni poziom!"));
-                        playConfigSound(player, "missing-previous-level"); // Dźwięk błędu
+                        player.sendMessage(ColorUtil.color("&#ff0000You must first buy the previous level!"));
+                        playConfigSound(player, "missing-previous-level"); 
                         return;
                     }
 
@@ -103,7 +101,7 @@ public class InventoryClickListener implements Listener {
                         String msg = plugin.getConfig().getString("messages.not-enough-money")
                                 .replace("%cost%", String.valueOf(cost));
                         player.sendMessage(ColorUtil.color(msg));
-                        playConfigSound(player, "not-enough-money"); // Dźwięk błędu (wieśniak)
+                        playConfigSound(player, "not-enough-money"); 
                         return;
                     }
 
@@ -117,7 +115,7 @@ public class InventoryClickListener implements Listener {
                             .replace("%level%", String.valueOf(clickedLevel));
                     player.sendMessage(ColorUtil.color(successMsg));
 
-                    playConfigSound(player, "level-up"); // Dźwięk ulepszenia (Level-up)
+                    playConfigSound(player, "level-up"); 
 
                     plugin.getUpgradeGUI().open(player);
                     return;
@@ -135,7 +133,7 @@ public class InventoryClickListener implements Listener {
             float pitch = (float) plugin.getConfig().getDouble("sounds." + path + ".pitch");
             player.playSound(player.getLocation(), sound, volume, pitch);
         } catch (IllegalArgumentException e) {
-            plugin.getLogger().warning("Nie znaleziono dzwieku: " + plugin.getConfig().getString("sounds." + path + ".sound"));
+            plugin.getLogger().warning("Not found sound: " + plugin.getConfig().getString("sounds." + path + ".sound"));
         }
     }
 

@@ -26,12 +26,12 @@ public class AdminCommand implements CommandExecutor {
         // Obsługa przeładowania configu
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
             plugin.reloadConfig();
-            sender.sendMessage(ColorUtil.color("&#00FFCC✔ &aPomyslnie przeladowano plik config.yml!"));
+            sender.sendMessage(ColorUtil.color("&#00FFCC✔ &aSucccesfully reloaded config!"));
             return true;
         }
 
         if (args.length < 3) {
-            sender.sendMessage(ColorUtil.color("&#ffaa00Uzycie: /f0ef <set|clear|reload> <gracz> <efekt> [poziom]"));
+            sender.sendMessage(ColorUtil.color("&#ffaa00Usage: /f0ef <set|clear|reload> <player> <effect> [level]"));
             return true;
         }
 
@@ -39,13 +39,13 @@ public class AdminCommand implements CommandExecutor {
         Player target = Bukkit.getPlayer(args[1]);
 
         if (target == null) {
-            sender.sendMessage(ColorUtil.color("&#ff0000Nie znaleziono gracza o nicku " + args[1] + "!"));
+            sender.sendMessage(ColorUtil.color("&#ff0000Player not found: " + args[1] + "!"));
             return true;
         }
 
         String effect = args[2].toUpperCase();
         if (!plugin.getConfig().contains("effects." + effect)) {
-            sender.sendMessage(ColorUtil.color("&#ff0000Nieznany efekt! Dostepne: SPEED, RESISTANCE, REGENERATION"));
+            sender.sendMessage(ColorUtil.color("&#ff0000Unknown effect! Available: SPEED, RESISTANCE, REGENERATION"));
             return true;
         }
 
@@ -53,26 +53,26 @@ public class AdminCommand implements CommandExecutor {
 
         if (action.equals("set")) {
             if (args.length < 4) {
-                sender.sendMessage(ColorUtil.color("&#ff0000Podaj poziom do ustawienia (0-3)!"));
+                sender.sendMessage(ColorUtil.color("&#ff0000Provide level to set (0-3)!"));
                 return true;
             }
             try {
                 int level = Integer.parseInt(args[3]);
                 if (level < 0 || level > 3) {
-                    sender.sendMessage(ColorUtil.color("&#ff0000Poziom musi byc w przedziale 0-3!"));
+                    sender.sendMessage(ColorUtil.color("&#ff0000Level must be in range 0-3!"));
                     return true;
                 }
                 data.setLevel(effect, level);
-                sender.sendMessage(ColorUtil.color("&#00ff00Pomyslnie ustawiono poziom &e" + level + " &aefektu &e" + effect + " &adla gracza &e" + target.getName()));
+                sender.sendMessage(ColorUtil.color("&#00ff00Successfully set level &e" + level + " &afor effect &e" + effect + " &afor player &e" + target.getName()));
             } catch (NumberFormatException e) {
-                sender.sendMessage(ColorUtil.color("&#ff0000Podany poziom nie jest liczba!"));
+                sender.sendMessage(ColorUtil.color("&#ff0000Provided level is not a number!"));
                 return true;
             }
         } else if (action.equals("clear")) {
             data.setLevel(effect, 0);
-            sender.sendMessage(ColorUtil.color("&#00ff00Pomyslnie wyzerowano efekt &e" + effect + " &adla gracza &e" + target.getName()));
+            sender.sendMessage(ColorUtil.color("&#00ff00Successfully cleared effect &e" + effect + " &afor player &e" + target.getName()));
         } else {
-            sender.sendMessage(ColorUtil.color("&#ffaa00Uzycie: /f0ef <set|clear|reload> <gracz> <efekt> [poziom]"));
+            sender.sendMessage(ColorUtil.color("&#ffaa00Usage: /f0ef <set|clear|reload> <player> <effect> [level]"));
             return true;
         }
 

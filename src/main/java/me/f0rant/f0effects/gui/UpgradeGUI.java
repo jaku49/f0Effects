@@ -46,15 +46,15 @@ public class UpgradeGUI {
                 if (slots.size() < level) continue;
                 
                 ItemStack item = new ItemStack(mat);
-                item.setAmount(level); // Ustawienie wielkości stacka (1, 2, 3)
+                item.setAmount(level); 
                 
                 ItemMeta meta = item.getItemMeta();
-                // NOWOŚĆ W 1.21: Wymuszamy max stack size, aby klient gry wyświetlił cyfrę na zbroi!
+
                 if (level > 1) {
                     meta.setMaxStackSize(99); 
                 }
                 
-                meta.setDisplayName(ColorUtil.color(name + " &8- &ePoziom " + level));
+                meta.setDisplayName(ColorUtil.color(name + " &8- &eLevel " + level));
 
                 int cost = plugin.getConfig().getInt("effects." + key + ".levels." + level + ".cost");
                 int durationTicks = plugin.getConfig().getInt("effects." + key + ".levels." + level + ".duration");

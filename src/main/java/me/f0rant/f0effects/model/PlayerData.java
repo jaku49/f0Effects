@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public class PlayerData {
     private final UUID uuid;
+    private String nickname;
     private String selectedEffect;
     private final Map<String, Integer> effectLevels = new HashMap<>();
 
@@ -13,9 +14,31 @@ public class PlayerData {
         this.uuid = uuid;
     }
 
-    public String getSelectedEffect() { return selectedEffect; }
-    public void setSelectedEffect(String effect) { this.selectedEffect = effect; }
-    public int getLevel(String effect) { return effectLevels.getOrDefault(effect, 0); }
-    public void setLevel(String effect, int level) { effectLevels.put(effect, level); }
-    public UUID getUuid() { return uuid; }
+    public String getNickname() { 
+        return nickname; 
+    }
+
+    public void setNickname(String nickname) { 
+        this.nickname = nickname; 
+    }
+
+    public String getSelectedEffect() { 
+        return selectedEffect; 
+    }
+
+    public void setSelectedEffect(String effect) { 
+        this.selectedEffect = effect; 
+    }
+
+    public int getLevel(String effect) { 
+        return effectLevels.getOrDefault(effect, 0); 
+    }
+
+    public void setLevel(String effect, int level) { 
+        effectLevels.put(effect, level); 
+    }
+
+    public UUID getUuid() { 
+        return uuid; 
+    }
 }

@@ -16,7 +16,7 @@ public class EffectsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("To menu mozna otworzyc tylko w grze!");
+            sender.sendMessage("This menu can only be used by players!");
             return true;
         }
 
