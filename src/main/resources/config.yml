@@ -1,0 +1,185 @@
+# f0Effect - plugin do Minecrafta, ktory dodaje unikalne efekty dla graczy po zabiciu innego gracza na arenie.
+# Ten plik konfiguracyjny zawiera ustawienia dotyczace bazy danych, dzwiekow, wiadomosci, GUI oraz efektow dostepnych w pluginie.
+
+# Konfiguracja bazy danych MySQL, ktora przechowuje informacje o graczach, ich efektach oraz ulepszeniach.
+
+mysql:
+  host: "localhost"
+  port: 3306
+  database: "minecraft"
+  username: "minecraft"
+  password: "mc123"
+  table_prefix: "f0effects_"
+
+# Konfiguracja dzwiekow odtwarzanych podczas roznych akcji, takich jak aktywacja efektu, zakup ulepszenia, czy brak srodkow do zakupu.
+
+sounds:
+  effect-selected:
+    sound: "ENTITY_EXPERIENCE_ORB_PICKUP"
+    volume: 1.0
+    pitch: 1.0
+  level-up:
+    sound: "ENTITY_PLAYER_LEVELUP"
+    volume: 1.0
+    pitch: 1.0
+  not-enough-money:
+    sound: "ENTITY_VILLAGER_NO"
+    volume: 1.0
+    pitch: 1.0
+  missing-previous-level:
+    sound: "ENTITY_ITEM_BREAK"
+    volume: 1.0
+    pitch: 0.5
+
+# Konfiguracja wiadomosci wyswietlanych graczom podczas korzystania z pluginu, takich jak brak uprawnien, aktywacja efektu, brak srodkow do zakupu ulepszenia, czy zakup ulepszenia.
+
+messages:
+  no-permission: "&#FF0000✖ Nie masz uprawnien do tej komendy!"
+  effect-selected: "&#00FFCC✔ &aPomyslnie aktywowano efekt: %effect%"
+  not-enough-money: "&#FF0000✖ Brak srodkow! &7Potrzebujesz &#FFD700%cost%$&7, aby to kupic."
+  level-up: "&#FFD700⭐ &aZakupiono ulepszenie %effect% &a(Poziom &e%level%&a)!"
+
+# Konfiguracja GUI, w ktorym gracze wybieraja efekty po zabiciu innego gracza oraz menu sklepu z ulepszeniami.
+
+gui:
+  main:
+    title: "&#FF5555☠ &lWYBIERZ SWOJ EFEKT"
+    size: 45
+    info-book:
+      slot: 24
+      material: "BOOK"
+      name: "&#FFD700📖 &lO co tutaj chodzi?"
+      lore:
+        - "&#AAAAAAWybierz jeden z poteznych bonusow,"
+        - "&#AAAAAAktory aktywuje sie natychmiast po"
+        - "&#AAAAAAzabiciu innego gracza na arenie!"
+        - ""
+        - "&#FF5555Zbieraj krew i dominuj na serwerze!"
+    upgrade-item:
+      slot: 43
+      material: "ANVIL"
+      name: "&#00aaff⭐ &lULEPSZENIA EFEKTOW"
+      lore:
+        - "&#AAAAAAChcesz trwac na polu bitwy dluzej?"
+        - "&#AAAAAAZainwestuj swoja walute w lepsze"
+        - "&#AAAAAAwersje swoich ulubionych efektow."
+        - ""
+        - "&#00FFCC▸ Kliknij, aby otworzyc menu!"
+    close-item:
+      slot: 44
+      material: "BARRIER"
+      name: "&#FF0000✖ &lZamknij menu"
+
+# Konfiguracja menu sklepu z ulepszeniami, gdzie gracze moga inwestowac swoja walute, aby zwiekszyc czas trwania i moc swoich efektow.
+
+  upgrade:
+    title: "&#00aaff⭐ &lSKLEP Z ULEPSZENIAMI"
+    size: 45
+    format:
+      duration: "&#AAAAAA⏳ Czas trwania bonusu: &#00FFCC%duration%s"
+      cost: "&#AAAAAA💲 Koszt ulepszenia: &#FFD700%cost%$"
+      unlocked: "&#00FF00✦ Posiadasz juz to ulepszenie!"
+      can-buy: "&#FFD700➤ Kliknij, aby kupic ten poziom!"
+      locked: "&#FF0000✖ Najpierw kup poziom %required_level%!"
+    info-book:
+      slot: 24
+      material: "BOOK"
+      name: "&#FFD700📖 &lDrzewko Ulepszen"
+      lore:
+        - "&#AAAAAAWydawaj zarobione pieniadze,"
+        - "&#AAAAAAaby wydluzyc czas trwania efektow"
+        - "&#AAAAAAoraz zwiekszyc ich moc."
+        - ""
+        - "&#FF5555Zasada: &7Musisz kupowac poziomy po kolei!"
+    back-item:
+      slot: 43
+      material: "POTION"
+      name: "&#FF5555↩ &lCofnij do wyboru efektow"
+      lore:
+        - "&#AAAAAAKliknij, aby wrocic"
+    close-item:
+      slot: 44
+      material: "BARRIER"
+      name: "&#FF0000✖ &lZamknij menu"
+
+# Konfiguracja efektow, ktore gracze moga aktywowac po zabiciu innego gracza.
+
+effects:
+  SPEED:
+    material: "SUGAR"
+    name: "&#00FFCC⚡ &lSZYBKOSC"
+    slot: 19
+    upgrade-slots: [10, 19, 28]
+    lore:
+      - "&#888888Zostaw przeciwnikow w tyle!"
+      - "&#AAAAAAOtrzymujesz bonus do predkosci,"
+      - "&#AAAAAAdzieki ktoremu dogonisz kazda ofiare."
+      - ""
+      - "&#00FFCC▸ &7Aktualny poziom: &#00FFCC%level%"
+      - ""
+      - "&#00FF00✔ Kliknij, aby aktywowac ten efekt!"
+    levels:
+      1:
+        amplifier: 0
+        duration: 100
+        cost: 1000
+      2:
+        amplifier: 1
+        duration: 140
+        cost: 2500
+      3:
+        amplifier: 2
+        duration: 200
+        cost: 5000
+  RESISTANCE:
+    material: "CHAINMAIL_CHESTPLATE"
+    name: "&#AAAAAA🛡 &lODPORNOSC"
+    slot: 20
+    upgrade-slots: [11, 20, 29]
+    lore:
+      - "&#888888Poczuj sie jak zywy czolg!"
+      - "&#AAAAAARedukuje otrzymywane obrazenia,"
+      - "&#AAAAAApozwalajac przetrwac uderzenia wielu wrogow."
+      - ""
+      - "&#AAAAAA▸ &7Aktualny poziom: &#AAAAAA%level%"
+      - ""
+      - "&#00FF00✔ Kliknij, aby aktywowac ten efekt!"
+    levels:
+      1:
+        amplifier: 0
+        duration: 100
+        cost: 1500
+      2:
+        amplifier: 1
+        duration: 140
+        cost: 3000
+      3:
+        amplifier: 2
+        duration: 200
+        cost: 6000
+  REGENERATION:
+    material: "GOLDEN_APPLE"
+    name: "&#FF3366❤ &lREGENERACJA"
+    slot: 21
+    upgrade-slots: [12, 21, 30]
+    lore:
+      - "&#888888Krew wrogow leczy twoje rany!"
+      - "&#AAAAAASzybko odnawia twoje punkty zdrowia,"
+      - "&#AAAAAAdajac ci szanse na kolejne starcie."
+      - ""
+      - "&#FF3366▸ &7Aktualny poziom: &#FF3366%level%"
+      - ""
+      - "&#00FF00✔ Kliknij, aby aktywowac ten efekt!"
+    levels:
+      1:
+        amplifier: 0
+        duration: 100
+        cost: 2000
+      2:
+        amplifier: 1
+        duration: 140
+        cost: 4000
+      3:
+        amplifier: 2
+        duration: 200
+        cost: 8000

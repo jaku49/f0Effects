@@ -1,0 +1,14 @@
+name: f0Effects
+version: 1.0.0
+main: me.f0rant.f0effects.f0Effects
+api-version: '1.21'
+authors: [f0rant]
+depend: [Vault]
+commands:
+  efekty:
+    description: Otwiera menu efektow po zabojstwie
+    aliases: [effects]
+  f0ef:
+    description: Komenda administracyjna do zarzadzania efektami
+    permission: f0effects.admin
+    permission-message: "&#FF0000Nie masz uprawnien do tej komendy!"
