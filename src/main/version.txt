@@ -1,1 +1,1 @@
-1.2|testurl.net/spigot-plg/f0eff.jar
+1.1
