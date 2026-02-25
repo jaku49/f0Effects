@@ -187,6 +187,7 @@ Supports modern Spigot and Paper versions.
 
 ### Planned Features
 
+- [ ] SQLite support
 - [ ] PlaceholderAPI support  
 - [ ] Per-arena configuration  
 - [ ] Effect cooldown system  
