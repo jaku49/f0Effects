@@ -183,11 +183,16 @@ Supports modern Spigot and Paper versions.
 
 ---
 
+> [!IMPORTANT]
+> The config.yml file must be deleted before updating.
+
+---
+
 # 🚀 Roadmap
 
 ### Planned Features
 
-- [ ] SQLite support
+- [X] SQLite support
 - [ ] PlaceholderAPI support  
 - [ ] Per-arena configuration  
 - [ ] Effect cooldown system  
