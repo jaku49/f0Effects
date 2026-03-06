@@ -193,12 +193,14 @@ Supports modern Spigot and Paper versions.
 ### Planned Features
 
 - [X] SQLite support
-- [ ] PlaceholderAPI support  
+- [ ] PlaceholderAPI support
+- [ ] Expand permissions
 - [ ] Per-arena configuration  
 - [ ] Effect cooldown system  
 - [ ] Player statistics tracking  
 - [ ] Particle customization  
-- [ ] Transferring the remaining messages to the config 
+- [ ] Transferring the remaining messages to the config
+- [ ] Add support for Polish (the author's native language) and German.
 
 ---
 
