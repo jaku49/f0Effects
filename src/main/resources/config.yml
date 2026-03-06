@@ -1,5 +1,6 @@
 ####################################################################################################
 # f0Effect - Advanced Kill Effect System
+# version: 1.1.0
 # --------------------------------------------------------------------------------------------------
 # This plugin grants temporary combat effects to players after killing another player in arena.
 # Effects can be upgraded for higher power but shorter duration.
@@ -23,6 +24,12 @@
 update-checker:
   enabled: true
 
+####################################################################################################
+# DATABASE SETTINGS
+# Choose between "SQLITE" for local file storage or "MYSQL" for external database.
+####################################################################################################
+
+storage-type: "SQLITE"
 
 ####################################################################################################
 # MYSQL DATABASE CONFIGURATION

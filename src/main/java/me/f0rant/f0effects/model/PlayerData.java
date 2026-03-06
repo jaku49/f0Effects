@@ -14,31 +14,16 @@ public class PlayerData {
         this.uuid = uuid;
     }
 
-    public String getNickname() { 
-        return nickname; 
-    }
+    public String getNickname() { return nickname; }
+    public void setNickname(String nickname) { this.nickname = nickname; }
 
-    public void setNickname(String nickname) { 
-        this.nickname = nickname; 
-    }
+    public String getSelectedEffect() { return selectedEffect; }
+    public void setSelectedEffect(String effect) { this.selectedEffect = effect; }
 
-    public String getSelectedEffect() { 
-        return selectedEffect; 
-    }
+    public int getLevel(String effect) { return effectLevels.getOrDefault(effect, 0); }
+    public void setLevel(String effect, int level) { effectLevels.put(effect, level); }
 
-    public void setSelectedEffect(String effect) { 
-        this.selectedEffect = effect; 
-    }
+    public Map<String, Integer> getEffectLevels() { return effectLevels; }
 
-    public int getLevel(String effect) { 
-        return effectLevels.getOrDefault(effect, 0); 
-    }
-
-    public void setLevel(String effect, int level) { 
-        effectLevels.put(effect, level); 
-    }
-
-    public UUID getUuid() { 
-        return uuid; 
-    }
+    public UUID getUuid() { return uuid; }
 }

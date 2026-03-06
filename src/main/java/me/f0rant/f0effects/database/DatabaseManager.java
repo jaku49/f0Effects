@@ -5,10 +5,12 @@ import com.zaxxer.hikari.HikariDataSource;
 import me.f0rant.f0effects.f0Effects;
 import me.f0rant.f0effects.model.PlayerData;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 public class DatabaseManager {
     private final f0Effects plugin;
@@ -20,86 +22,84 @@ public class DatabaseManager {
     }
 
     public void connect() {
-        String host = plugin.getConfig().getString("mysql.host");
-        int port = plugin.getConfig().getInt("mysql.port");
-        String database = plugin.getConfig().getString("mysql.database");
-        String username = plugin.getConfig().getString("mysql.username");
-        String password = plugin.getConfig().getString("mysql.password");
+        String type = plugin.getConfig().getString("storage-type", "SQLITE").toUpperCase();
         this.tablePrefix = plugin.getConfig().getString("mysql.table_prefix", "f0effects_");
-
+        
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true&useSSL=false");
-        config.setUsername(username);
-        config.setPassword(password);
-        config.setMaximumPoolSize(10);
-        config.setMinimumIdle(2); 
-        config.setConnectionTimeout(10000); 
 
+        if (type.equals("MYSQL")) {
+            config.setJdbcUrl("jdbc:mysql://" + plugin.getConfig().getString("mysql.host") + ":" + 
+                    plugin.getConfig().getInt("mysql.port") + "/" + plugin.getConfig().getString("mysql.database"));
+            config.setUsername(plugin.getConfig().getString("mysql.username"));
+            config.setPassword(plugin.getConfig().getString("mysql.password"));
+        } else {
+            File dbFile = new File(plugin.getDataFolder(), "database.db");
+            config.setJdbcUrl("jdbc:sqlite:" + dbFile.getAbsolutePath());
+        }
+
+        config.setMaximumPoolSize(10);
         dataSource = new HikariDataSource(config);
 
         try {
-            createTable();
-            plugin.getLogger().info("Successfully connected to MySQL database!");
+            createTables();
+            plugin.getLogger().info("Successfully connected to " + type + " database!");
         } catch (SQLException e) {
-            plugin.getLogger().severe("Error connecting to MySQL database!");
             e.printStackTrace();
         }
     }
 
     public void disconnect() {
-        if (dataSource != null && !dataSource.isClosed()) {
-            dataSource.close();
-            plugin.getLogger().info("Disconnected from MySQL database.");
-        }
+        if (dataSource != null && !dataSource.isClosed()) dataSource.close();
     }
 
-    private void createTable() throws SQLException {
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(
-                     "CREATE TABLE IF NOT EXISTS " + tablePrefix + "data (" +
-                             "uuid VARCHAR(36) PRIMARY KEY, " +
-                             "nickname VARCHAR(16), " +
-                             "selected_effect VARCHAR(32), " +
-                             "speed_level INT DEFAULT 0, " +
-                             "resistance_level INT DEFAULT 0, " +
-                             "regeneration_level INT DEFAULT 0, " +
-                             "strength_level INT DEFAULT 0" +
-                             ")")) {
-            ps.executeUpdate();
+    private void createTables() throws SQLException {
+        try (Connection conn = dataSource.getConnection()) {
+            conn.prepareStatement("CREATE TABLE IF NOT EXISTS " + tablePrefix + "data (" +
+                    "uuid VARCHAR(36) PRIMARY KEY, nickname VARCHAR(16), selected_effect VARCHAR(32))").executeUpdate();
+            
+            conn.prepareStatement("CREATE TABLE IF NOT EXISTS " + tablePrefix + "levels (" +
+                    "uuid VARCHAR(36), effect_key VARCHAR(32), level INT, PRIMARY KEY(uuid, effect_key))").executeUpdate();
         }
     }
 
     public void savePlayerSync(PlayerData data) {
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(
-                     "REPLACE INTO " + tablePrefix + "data (uuid, nickname, selected_effect, speed_level, resistance_level, regeneration_level, strength_level) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
-            ps.setString(1, data.getUuid().toString());
-            ps.setString(2, data.getNickname());
-            ps.setString(3, data.getSelectedEffect());
-            ps.setInt(4, data.getLevel("SPEED"));
-            ps.setInt(5, data.getLevel("RESISTANCE"));
-            ps.setInt(6, data.getLevel("REGENERATION"));
-            ps.setInt(7, data.getLevel("STRENGTH"));
-            ps.executeUpdate();
+        try (Connection conn = dataSource.getConnection()) {
+            PreparedStatement psData = conn.prepareStatement(
+                    "REPLACE INTO " + tablePrefix + "data (uuid, nickname, selected_effect) VALUES (?, ?, ?)");
+            psData.setString(1, data.getUuid().toString());
+            psData.setString(2, data.getNickname());
+            psData.setString(3, data.getSelectedEffect());
+            psData.executeUpdate();
+
+            PreparedStatement psLevel = conn.prepareStatement(
+                    "REPLACE INTO " + tablePrefix + "levels (uuid, effect_key, level) VALUES (?, ?, ?)");
+            for (Map.Entry<String, Integer> entry : data.getEffectLevels().entrySet()) {
+                psLevel.setString(1, data.getUuid().toString());
+                psLevel.setString(2, entry.getKey());
+                psLevel.setInt(3, entry.getValue());
+                psLevel.addBatch();
+            }
+            psLevel.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void loadPlayerSync(PlayerData data) {
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(
-                     "SELECT * FROM " + tablePrefix + "data WHERE uuid = ?")) {
-            ps.setString(1, data.getUuid().toString());
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    data.setNickname(rs.getString("nickname"));
-                    data.setSelectedEffect(rs.getString("selected_effect"));
-                    data.setLevel("SPEED", rs.getInt("speed_level"));
-                    data.setLevel("RESISTANCE", rs.getInt("resistance_level"));
-                    data.setLevel("REGENERATION", rs.getInt("regeneration_level"));
-                    data.setLevel("STRENGTH", rs.getInt("strength_level"));
-                }
+        try (Connection conn = dataSource.getConnection()) {
+            PreparedStatement psData = conn.prepareStatement("SELECT * FROM " + tablePrefix + "data WHERE uuid = ?");
+            psData.setString(1, data.getUuid().toString());
+            ResultSet rsData = psData.executeQuery();
+            if (rsData.next()) {
+                data.setNickname(rsData.getString("nickname"));
+                data.setSelectedEffect(rsData.getString("selected_effect"));
+            }
+
+            PreparedStatement psLevel = conn.prepareStatement("SELECT * FROM " + tablePrefix + "levels WHERE uuid = ?");
+            psLevel.setString(1, data.getUuid().toString());
+            ResultSet rsLevel = psLevel.executeQuery();
+            while (rsLevel.next()) {
+                data.setLevel(rsLevel.getString("effect_key"), rsLevel.getInt("level"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
