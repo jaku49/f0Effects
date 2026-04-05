@@ -29,7 +29,10 @@ public final class f0Effects extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new me.f0rant.f0effects.utils.EffectsExpansion(this).register();
+            getLogger().info("Found PlaceholderAPI, registered placeholders.");
+        }
         if (!setupEconomy()) {
             getLogger().severe("Vault and an economy plugin are required for f0Effects to work! Disabling plugin.");
             getServer().getPluginManager().disablePlugin(this);
