@@ -7,8 +7,8 @@
   <img src="https://img.shields.io/badge/Minecraft-1.19+-blue.svg">
   <img src="https://img.shields.io/badge/Platform-Spigot%20%7C%20Paper-blue">
   <img src="https://img.shields.io/badge/Storage-MySQL-blue">
+  <img src="https://img.shields.io/badge/Storage-SQLite-blue">
   <img src="https://img.shields.io/badge/Status-Active%20Development-blue">
-  <img src="https://img.shields.io/badge/Style-Clean%20Blue%20UI-blue">
 </p>
 
 ---
