@@ -172,6 +172,20 @@ https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
 
 ---
 
+# 🔌 PAPI
+
+| Placeholder | Description | Example Output |
+| :--- | :--- | :--- |
+| `%f0effects_selected%` | Returns the clean, colored name of the currently selected effect directly from the configuration. | `⚡ SPEED` (or `---`) |
+| `%f0effects_selected_level%` | Returns the numeric level of the currently active effect. | `2` (or `0`) |
+| `%f0effects_selected_format%` | Returns elegantly formatted text combining the effect name and its current level. | `⚡ SPEED (Lvl 2)` |
+| `%f0effects_selected_duration%` | Returns the duration (in seconds) of the currently selected upgrade. | `10s` (or `0s`) |
+| `%f0effects_level_<EFFECT>%` | Checks the level of a specific effect, even if the player is not currently using it. | `3` |
+| `%f0effects_next_cost_<EFFECT>%` | Returns the upgrade cost for the next level. Returns "MAX" if the player has already reached level 3. | `2500` (or `MAX`) |
+| `%f0effects_is_max_<EFFECT>%` | A boolean check returning whether the player has purchased all available upgrades for a given category. | `Yes` (or `No`) | 
+
+---
+
 # 🛠 Installation
 
 1. Place plugin into `/plugins`
@@ -193,7 +207,7 @@ Supports modern Spigot and Paper versions.
 ### Planned Features
 
 - [X] SQLite support
-- [ ] PlaceholderAPI support
+- [X] PlaceholderAPI support
 - [ ] Expand permissions
 - [ ] Per-arena configuration  
 - [ ] Effect cooldown system  
