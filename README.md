@@ -1,4 +1,4 @@
-<h1 align="center">⚔ f0Effect</h1>
+<h1 align="center">⚔ f0Effects</h1>
 <p align="center">
   Advanced Kill Effect System for Competitive Minecraft PvP Servers
 </p>
