@@ -1,11 +1,11 @@
 package me.f0rant.f0effects;
 
-import me.f0rant.f0effects.command.AdminCommand;
-import me.f0rant.f0effects.command.AdminCommandCompleter;
-import me.f0rant.f0effects.command.EffectsCommand;
+import me.f0rant.f0effects.command.MainCommand;
+import me.f0rant.f0effects.command.MainCommandCompleter;
 import me.f0rant.f0effects.database.DatabaseManager;
 import me.f0rant.f0effects.gui.EffectGUI;
 import me.f0rant.f0effects.gui.UpgradeGUI;
+import me.f0rant.f0effects.gui.VisualEffectGUI;
 import me.f0rant.f0effects.listener.InventoryClickListener;
 import me.f0rant.f0effects.listener.PlayerDeathListener;
 import me.f0rant.f0effects.listener.PlayerJoinQuitListener;
@@ -21,18 +21,23 @@ public final class f0Effects extends JavaPlugin {
     private DatabaseManager databaseManager;
     private EffectManager effectManager;
     private BossBarManager bossBarManager;
+    
     private EffectGUI effectGUI;
     private UpgradeGUI upgradeGUI;
+    private VisualEffectGUI visualEffectGUI; 
+    
     private UpdateChecker updateChecker;
     private Economy econ = null;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
+
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new me.f0rant.f0effects.utils.EffectsExpansion(this).register();
             getLogger().info("Found PlaceholderAPI, registered placeholders.");
         }
+        
         if (!setupEconomy()) {
             getLogger().severe("Vault and an economy plugin are required for f0Effects to work! Disabling plugin.");
             getServer().getPluginManager().disablePlugin(this);
@@ -44,8 +49,10 @@ public final class f0Effects extends JavaPlugin {
 
         this.effectManager = new EffectManager(this);
         this.bossBarManager = new BossBarManager(this);
+        
         this.effectGUI = new EffectGUI(this);
         this.upgradeGUI = new UpgradeGUI(this);
+        this.visualEffectGUI = new VisualEffectGUI(this); 
 
         this.updateChecker = new UpdateChecker(
                 this,
@@ -53,9 +60,8 @@ public final class f0Effects extends JavaPlugin {
         );
         updateChecker.check();
 
-        getCommand("efekty").setExecutor(new EffectsCommand(this));
-        getCommand("f0ef").setExecutor(new AdminCommand(this));
-        getCommand("f0ef").setTabCompleter(new AdminCommandCompleter(this));
+        getCommand("f0effects").setExecutor(new MainCommand(this));
+        getCommand("f0effects").setTabCompleter(new MainCommandCompleter(this));
 
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryClickListener(this), this);
@@ -64,7 +70,11 @@ public final class f0Effects extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (databaseManager != null) {
+        if (effectManager != null && databaseManager != null) {
+            for (org.bukkit.entity.Player player : getServer().getOnlinePlayers()) {
+                me.f0rant.f0effects.model.PlayerData data = effectManager.getPlayerData(player.getUniqueId());
+                databaseManager.savePlayerSync(data);
+            }
             databaseManager.disconnect();
         }
     }
@@ -81,7 +91,10 @@ public final class f0Effects extends JavaPlugin {
     public DatabaseManager getDatabaseManager() { return databaseManager; }
     public EffectManager getEffectManager() { return effectManager; }
     public BossBarManager getBossBarManager() { return bossBarManager; }
+    
     public EffectGUI getEffectGUI() { return effectGUI; }
     public UpgradeGUI getUpgradeGUI() { return upgradeGUI; }
+    public VisualEffectGUI getVisualEffectGUI() { return visualEffectGUI; }
+    
     public UpdateChecker getUpdateChecker() { return updateChecker; }
 }

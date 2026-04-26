@@ -31,53 +31,56 @@ public class UpgradeGUI {
 
         ItemStack glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta glassMeta = glass.getItemMeta();
-        glassMeta.setDisplayName(ColorUtil.color("&7"));
-        glassMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
-        glass.setItemMeta(glassMeta);
+        if (glassMeta != null) {
+            glassMeta.setDisplayName(ColorUtil.color("&7"));
+            glassMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+            glass.setItemMeta(glassMeta);
+        }
         for (int i = 0; i < inv.getSize(); i++) inv.setItem(i, glass);
 
         for (String key : plugin.getConfig().getConfigurationSection("effects").getKeys(false)) {
-            Material mat = Material.valueOf(plugin.getConfig().getString("effects." + key + ".material"));
+            Material mat;
+            try {
+                mat = Material.valueOf(plugin.getConfig().getString("effects." + key + ".material", "STONE").toUpperCase());
+            } catch (Exception e) { mat = Material.STONE; }
+
             String name = plugin.getConfig().getString("effects." + key + ".name");
             List<Integer> slots = plugin.getConfig().getIntegerList("effects." + key + ".upgrade-slots");
             int currentLevel = data.getLevel(key);
 
             for (int level = 1; level <= 3; level++) {
                 if (slots.size() < level) continue;
-                
+
                 ItemStack item = new ItemStack(mat);
                 item.setAmount(level); 
                 
                 ItemMeta meta = item.getItemMeta();
-
-                if (level > 1) {
-                    meta.setMaxStackSize(99); 
-                }
+                if (level > 1) meta.setMaxStackSize(99); 
                 
                 meta.setDisplayName(ColorUtil.color(name + " &8- &eLevel " + level));
-
                 int cost = plugin.getConfig().getInt("effects." + key + ".levels." + level + ".cost");
                 int durationTicks = plugin.getConfig().getInt("effects." + key + ".levels." + level + ".duration");
                 int durationSeconds = durationTicks / 20;
 
                 List<String> lore = new ArrayList<>();
-                lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.duration").replace("%duration%", String.valueOf(durationSeconds))));
-                lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.cost").replace("%cost%", String.valueOf(cost))));
+                lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.duration", "&7Duration: %duration%s").replace("%duration%", String.valueOf(durationSeconds))));
+                lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.cost", "&7Cost: %cost%$").replace("%cost%", String.valueOf(cost))));
                 lore.add("");
 
                 if (currentLevel >= level) {
-                    lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.unlocked")));
+                    lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.unlocked", "&aUnlocked")));
                     meta.addEnchant(Enchantment.UNBREAKING, 1, true);
                     meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                 } else if (currentLevel == level - 1) {
-                    lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.can-buy")));
+                    lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.can-buy", "&eClick to buy")));
                 } else {
-                    lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.locked").replace("%required_level%", String.valueOf(level - 1))));
+                    lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.locked", "&cLocked").replace("%required_level%", String.valueOf(level - 1))));
                 }
 
                 meta.setLore(lore);
                 meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_ATTRIBUTES);
                 item.setItemMeta(meta);
+
                 inv.setItem(slots.get(level - 1), item);
             }
         }
@@ -90,11 +93,17 @@ public class UpgradeGUI {
     }
 
     private void setCustomItem(Inventory inv, String path) {
-        Material mat = Material.valueOf(plugin.getConfig().getString(path + ".material"));
+        if (!plugin.getConfig().contains(path)) return; 
+        
+        Material mat;
+        try {
+            mat = Material.valueOf(plugin.getConfig().getString(path + ".material", "BARRIER").toUpperCase());
+        } catch (Exception e) { mat = Material.BARRIER; }
+        
         ItemStack item = new ItemStack(mat);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(ColorUtil.color(plugin.getConfig().getString(path + ".name")));
-        
+        meta.setDisplayName(ColorUtil.color(plugin.getConfig().getString(path + ".name", "Item")));
+
         if (plugin.getConfig().contains(path + ".lore")) {
             List<String> lore = new ArrayList<>();
             for (String s : plugin.getConfig().getStringList(path + ".lore")) {

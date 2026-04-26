@@ -24,7 +24,10 @@ public class UpdateChecker {
     public void check() {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             try {
-                HttpURLConnection connection = (HttpURLConnection) new URL(versionURL).openConnection();
+                plugin.getLogger().info("[f0Effects] Starting update check... Fetching version info from: " + versionURL);
+                
+                String noCacheUrl = versionURL + "?t=" + System.currentTimeMillis();
+                HttpURLConnection connection = (HttpURLConnection) new URL(noCacheUrl).openConnection();
                 connection.setConnectTimeout(5000);
                 connection.setReadTimeout(5000);
 
@@ -32,7 +35,13 @@ public class UpdateChecker {
                         new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
 
                     String line = reader.readLine();
-                    if (line == null || line.isBlank()) return;
+                    if (line == null || line.isBlank()) {
+                        plugin.getLogger().warning("[f0Effects] Update file on GitHub is empty!");
+                        checked = true;
+                        return;
+                    }
+
+                    plugin.getLogger().info("[f0Effects] Read line from GitHub: " + line);
 
                     String[] parts = line.split("\\|");
                     latestVersion = parts[0].trim();
@@ -42,11 +51,22 @@ public class UpdateChecker {
                 }
 
                 String currentVersion = plugin.getDescription().getVersion().trim();
+                
+                plugin.getLogger().info("[f0Effects] Latest version from GitHub: '" + latestVersion + "'");
+                plugin.getLogger().info("[f0Effects] Installed version (plugin.yml): '" + currentVersion + "'");
+
                 if (isNewerVersion(currentVersion, latestVersion)) {
                     updateAvailable = true;
+                    plugin.getLogger().info("[f0Effects] RESULT: A newer version is available!");
+                } else {
+                    plugin.getLogger().info("[f0Effects] RESULT: Plugin is up to date. No update available.");
                 }
+                
                 checked = true;
-            } catch (Exception ignored) {}
+            } catch (Exception e) {
+                plugin.getLogger().warning("[f0Effects] ERROR while checking for updates: " + e.getMessage());
+                checked = true;
+            }
         });
     }
 
@@ -59,10 +79,13 @@ public class UpdateChecker {
             for (int i = 0; i < maxLength; i++) {
                 int currentPart = i < currentParts.length ? Integer.parseInt(currentParts[i].replaceAll("[^0-9]", "")) : 0;
                 int latestPart = i < latestParts.length ? Integer.parseInt(latestParts[i].replaceAll("[^0-9]", "")) : 0;
+                
                 if (latestPart > currentPart) return true;
                 if (latestPart < currentPart) return false;
             }
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            plugin.getLogger().warning("[f0Effects] ERROR while comparing versions: " + e.getMessage());
+        }
         return false;
     }
 
