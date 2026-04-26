@@ -138,7 +138,7 @@ When an effect is triggered, an elegant BossBar appears at the top of the screen
 - [ ] Effect cooldown system
 - [ ] Per-arena configuration
 - [X] Particle customization
-- X ] Transferring the remaining messages to the config
+- [X] Transferring the remaining messages to the config
 - [ ] Add support for Polish (the author's native language) and German.
 
 
