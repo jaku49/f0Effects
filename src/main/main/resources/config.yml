@@ -1,0 +1,398 @@
+####################################################################################################
+# f0Effect - Advanced Kill Effect & Visuals System
+# Version: 1.3.0
+#
+# Admin documentation:
+# Spigot API main docs: https://hub.spigotmc.org/javadocs/spigot/
+# Sounds: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+# Materials: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+# Particles: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Particle.html
+# BossBar: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BossBar.html
+#
+# Color format:
+# Use hex colors in the format &#RRGGBB together with standard Minecraft formatting
+# such as &a, &b, &l, &7, etc.
+####################################################################################################
+
+########################################
+# UPDATE CHECK
+# Enables automatic version checking
+########################################
+update-checker:
+  enabled: true
+
+########################################
+# STORAGE
+# SQLITE is recommended for small servers.
+# MYSQL is recommended for larger networks.
+########################################
+storage-type: "SQLITE"
+
+mysql:
+  host: "localhost"
+  port: 3306
+  database: "minecraft"
+  username: "minecraft"
+  password: "mc123"
+  table_prefix: "f0effects_"
+
+########################################
+# BOSSBAR
+# Displays the active effect at the top of the player's screen
+########################################
+bossbar:
+  enabled: true
+  title: "&#00AAFF✦ &lACTIVE EFFECT: %effect% &8(&bLevel %level%&8)"
+  color: "BLUE"
+  style: "SOLID"
+
+########################################
+# SOUNDS
+# These use Bukkit/Spigot Sound names
+########################################
+sounds:
+  effect-selected:
+    sound: "ENTITY_EXPERIENCE_ORB_PICKUP"
+    volume: 1.0
+    pitch: 1.1
+
+  level-up:
+    sound: "ENTITY_PLAYER_LEVELUP"
+    volume: 1.0
+    pitch: 1.2
+
+  not-enough-money:
+    sound: "ENTITY_VILLAGER_NO"
+    volume: 1.0
+    pitch: 1.0
+
+  missing-previous-level:
+    sound: "ENTITY_ITEM_BREAK"
+    volume: 1.0
+    pitch: 0.6
+
+########################################
+# MESSAGES
+# Chat messages shown to players
+########################################
+messages:
+  no-permission: "&#0066FF✖ You do not have permission to use this command."
+  effect-selected: "&#00AAFF✔ Effect activated: &b%effect%"
+  visual-selected: "&#00AAFF✔ Visual effect changed to: &b%visual%"
+  not-enough-money: "&#0066FF✖ Not enough money. &7You need &#00AAFF%cost%$ &7to purchase this."
+  level-up: "&#00AAFF⭐ Upgrade purchased: &b%effect% &7(Level &b%level%&7)"
+  visual-bought: "&#00AAFF✨ Visual effect purchased: &b%visual%"
+  update-available: "&#00AAFF⚠ New version available: &b%latest% &7(current: %current%)"
+  update-link: "&#3399FF➜ Download: &b%url%"
+
+########################################
+# PLACEHOLDERS
+# Reusable values used in menus and messages
+########################################
+placeholders:
+  none-selected: "&7None"
+  format: "%effect_name% &8(&bLvl %level%&8)"
+  duration-format: "%seconds%s"
+  max-level: "&bMAX"
+  boolean-true: "&aYes"
+  boolean-false: "&cNo"
+
+########################################
+# GUI
+# Inventory menus for effects, upgrades, and visuals
+########################################
+gui:
+  main:
+    title: "&#00AAFF✦ &lCHOOSE YOUR EFFECT"
+    size: 45
+
+    info-book:
+      slot: 24
+      material: "BOOK"
+      name: "&#3399FF📘 &lAbout Effects"
+      lore:
+        - "&#AAAAAAChoose a combat bonus"
+        - "&#AAAAAAthat activates on kill."
+
+    visuals-item:
+      slot: 42
+      material: "ENDER_EYE"
+      name: "&#00AAFF👁 &lVISUAL EFFECTS"
+      lore:
+        - "&#AAAAAACustomize your kill animation."
+        - ""
+        - "&#00AAFF➤ Click to open"
+
+    upgrade-item:
+      slot: 43
+      material: "ANVIL"
+      name: "&#00AAFF⭐ &lEFFECT UPGRADES"
+      lore:
+        - "&#AAAAAAHigher power, shorter duration."
+        - ""
+        - "&#00AAFF➤ Click to open"
+
+    close-item:
+      slot: 44
+      material: "BARRIER"
+      name: "&#0066FF✖ &lClose"
+
+  upgrade:
+    title: "&#00AAFF⭐ &lUPGRADE SHOP"
+    size: 45
+
+    format:
+      duration: "&#AAAAAA⏳ Duration: &#00AAFF%duration%s"
+      cost: "&#AAAAAA💲 Cost: &#00AAFF%cost%$"
+      unlocked: "&#00AAFF✔ You already own this level."
+      can-buy: "&#3399FF➤ Click to purchase."
+      locked: "&#0066FF✖ Purchase the previous level first."
+
+    info-book:
+      slot: 24
+      material: "BOOK"
+      name: "&#3399FF📘 &lUpgrade System"
+      lore:
+        - "&#AAAAAAUpgrade effects for"
+        - "&#AAAAAAhigher amplifier levels."
+
+    back-item:
+      slot: 43
+      material: "ARROW"
+      name: "&#3399FF↩ &lBack"
+
+    close-item:
+      slot: 44
+      material: "BARRIER"
+      name: "&#0066FF✖ &lClose"
+
+  visuals:
+    title: "&#00AAFF👁 &lVISUAL COSMETICS"
+    size: 45
+
+    format:
+      unlocked: "&#00AAFF✔ Unlocked"
+      selected: "&#3399FF⭐ Currently Selected"
+      click-to-select: "&#00AAFF➤ Click to select"
+      cost: "&#AAAAAA💲 Cost: &#00AAFF%cost%$"
+      click-to-buy: "&#00AAFF➤ Click to purchase"
+
+    back-item:
+      slot: 43
+      material: "ARROW"
+      name: "&#3399FF↩ &lBack to Menu"
+
+    close-item:
+      slot: 44
+      material: "BARRIER"
+      name: "&#0066FF✖ &lClose"
+
+########################################
+# EFFECTS
+# Core gameplay bonuses activated after a kill
+# amplifier: potion strength level (0 = level 1)
+# duration: in ticks (20 ticks = 1 second)
+########################################
+effects:
+  SPEED:
+    material: "SUGAR"
+    name: "&#00AAFF⚡ &lSPEED"
+    slot: 19
+    upgrade-slots: [10, 19, 28]
+    lore:
+      - "&#AAAAAAYou gain a large burst of speed"
+      - "&#AAAAAAafter every kill."
+      - ""
+      - "&#00AAFF➤ Unlocked level: &b%level%"
+      - ""
+      - "&#3399FF➤ Click to select"
+    levels:
+      1: { amplifier: 0, duration: 200, cost: 1500 }
+      2: { amplifier: 1, duration: 140, cost: 4000 }
+      3: { amplifier: 2, duration: 100, cost: 9000 }
+
+  RESISTANCE:
+    material: "CHAINMAIL_CHESTPLATE"
+    name: "&#3399FF🛡 &lRESISTANCE"
+    slot: 20
+    upgrade-slots: [11, 20, 29]
+    lore:
+      - "&#AAAAAATake significantly less damage"
+      - "&#AAAAAAafter a kill."
+      - ""
+      - "&#00AAFF➤ Unlocked level: &b%level%"
+      - ""
+      - "&#3399FF➤ Click to select"
+    levels:
+      1: { amplifier: 0, duration: 200, cost: 2000 }
+      2: { amplifier: 1, duration: 140, cost: 5000 }
+      3: { amplifier: 2, duration: 100, cost: 11000 }
+
+  REGENERATION:
+    material: "GOLDEN_APPLE"
+    name: "&#00CCFF❤ &lREGENERATION"
+    slot: 21
+    upgrade-slots: [12, 21, 30]
+    lore:
+      - "&#AAAAAAYour health regenerates quickly"
+      - "&#AAAAAAafter a kill."
+      - ""
+      - "&#00AAFF➤ Unlocked level: &b%level%"
+      - ""
+      - "&#3399FF➤ Click to select"
+    levels:
+      1: { amplifier: 0, duration: 200, cost: 2500 }
+      2: { amplifier: 1, duration: 140, cost: 6000 }
+      3: { amplifier: 2, duration: 100, cost: 13000 }
+
+  STRENGTH:
+    material: "IRON_SWORD"
+    name: "&#0066FF⚔ &lSTRENGTH"
+    slot: 22
+    upgrade-slots: [13, 22, 31]
+    lore:
+      - "&#AAAAAAYou deal much more damage"
+      - "&#AAAAAAafter a kill."
+      - ""
+      - "&#00AAFF➤ Unlocked level: &b%level%"
+      - ""
+      - "&#3399FF➤ Click to select"
+    levels:
+      1: { amplifier: 0, duration: 200, cost: 3000 }
+      2: { amplifier: 1, duration: 140, cost: 7000 }
+      3: { amplifier: 2, duration: 100, cost: 15000 }
+
+########################################
+# VISUAL EFFECTS
+# Cosmetic kill effects only
+# material must be a valid Bukkit Material
+# sound must be a valid Bukkit Sound
+# particle names must match Bukkit Particle names
+########################################
+visual-effects:
+  LIGHTNING:
+    name: "&#3399FF⚡ Lightning Bolt"
+    material: "LIGHTNING_ROD"
+    cost: 5000
+    slot: 10
+    visuals:
+      lightning: true
+      sound: "ENTITY_LIGHTNING_BOLT_THUNDER"
+
+  FIREWORK:
+    name: "&#66B2FF🎆 Firework Burst"
+    material: "FIREWORK_ROCKET"
+    cost: 3000
+    slot: 11
+    visuals:
+      firework: true
+
+  ELDER_GUARDIAN:
+    name: "&#00CCFF👻 Ghostly Curse"
+    material: "PRISMARINE_SHARD"
+    cost: 15000
+    slot: 12
+    visuals:
+      elder-guardian: true
+      sound: "ENTITY_ELDER_GUARDIAN_CURSE"
+
+  HEARTS:
+    name: "&#66B2FF❤ Heart Bloom"
+    material: "POPPY"
+    cost: 2000
+    slot: 13
+    visuals:
+      particles: ["HEART"]
+
+  FLAMES:
+    name: "&#3399FF🔥 Blue Flame"
+    material: "BLAZE_POWDER"
+    cost: 4000
+    slot: 14
+    visuals:
+      particles: ["FLAME", "LAVA"]
+
+  CLOUD:
+    name: "&#99CCFF☁ Cloud Burst"
+    material: "WHITE_WOOL"
+    cost: 1000
+    slot: 19
+    visuals:
+      particles: ["CLOUD"]
+
+  MAGIC:
+    name: "&#66B2FF✨ Arcane"
+    material: "DRAGON_BREATH"
+    cost: 8000
+    slot: 20
+    visuals:
+      particles: ["REVERSE_PORTAL", "WITCH"]
+
+  SONIC:
+    name: "&#3399FF🔊 Sonic Boom"
+    material: "ECHO_SHARD"
+    cost: 12000
+    slot: 21
+    visuals:
+      sound: "ENTITY_WARDEN_SONIC_BOOM"
+      particles: ["SONIC_BOOM"]
+
+  TOTEM:
+    name: "&#99CCFF🌟 Immortality"
+    material: "TOTEM_OF_UNDYING"
+    cost: 25000
+    slot: 22
+    visuals:
+      particles: ["TOTEM_OF_UNDYING"]
+      sound: "ITEM_TOTEM_USE"
+
+  SOUL:
+    name: "&#00AAFF💀 Soul Reap"
+    material: "SOUL_SAND"
+    cost: 10000
+    slot: 23
+    visuals:
+      particles: ["SOUL", "SOUL_FIRE_FLAME"]
+
+  BLOOD:
+    name: "&#3399FF🩸 Bloodbath"
+    material: "REDSTONE"
+    cost: 5000
+    slot: 28
+    visuals:
+      particles: ["BLOCK_DUST"]
+
+  ENDER:
+    name: "&#550055🌌 Void Walker"
+    material: "ENDER_PEARL"
+    cost: 7000
+    slot: 29
+    visuals:
+      particles: ["PORTAL", "DRAGON_BREATH"]
+
+  VILLAGER:
+    name: "&#66B2FF✳ Lucky Kill"
+    material: "EMERALD"
+    cost: 3000
+    slot: 30
+    visuals:
+      particles: ["VILLAGER_HAPPY"]
+      sound: "ENTITY_VILLAGER_YES"
+
+  EXPLOSION:
+    name: "&#555555💣 Kaboom"
+    material: "TNT"
+    cost: 10000
+    slot: 31
+    visuals:
+      particles: ["EXPLOSION_HUGE"]
+      sound: "ENTITY_GENERIC_EXPLODE"
+
+  DRAGON:
+    name: "&#3399FF🐲 Dragon's Breath"
+    material: "DRAGON_EGG"
+    cost: 50000
+    slot: 32
+    visuals:
+      sound: "ENTITY_ENDER_DRAGON_GROWL"
+      particles: ["DRAGON_BREATH", "LARGE_SMOKE"]
