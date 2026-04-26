@@ -49,7 +49,6 @@ Access the system through a wide variety of aliases: `killeffects`, `ke`, `keffe
 | Command | Description | Permission |
 |:---|:---|:---|
 | `/f0effects` | Opens the main GUI (Effects, Upgrades, Visuals). | `f0effects.use` |
-| `/f0effects help` | Displays a list of available commands. | `f0effects.use` |
 
 ### Admin Management Commands
 | Command | Description | Permission |
