@@ -41,6 +41,19 @@
 
 ---
 
+---
+
+## 🔗 Dependencies
+
+The plugin requires the following dependencies to function properly:
+
+* **Vault** + any economy plugin (e.g. EssentialsX Economy) — handles currency and upgrade system  
+* **PlaceholderAPI** *(optional)* — enables placeholder integration  
+* **Permissions plugin** (e.g. LuckPerms) — manages player permissions  
+
+> [!IMPORTANT]  
+> Make sure Vault is properly hooked into your economy plugin, otherwise the upgrade system will not work.
+
 ## ⌨ Commands & Permissions
 
 Access the system through a wide variety of aliases: `killeffects`, `ke`, `keffect`, `efectsfromkill`, `efekty`, `effects`, `f0ef`.
