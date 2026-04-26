@@ -1,0 +1,399 @@
+# Wklej zawartość tego pliku do ./plugins/f0Effects/config.yml zastępując nią poprzednią treść pliku!
+####################################################################################################
+# f0Effects - Zaawansowany system efektów i wizualizacji po zabójstwie
+# Wersja: 1.3.0
+#
+# Dokumentacja dla administracji:
+# Główna dokumentacja Spigot API: https://hub.spigotmc.org/javadocs/spigot/
+# Dźwięki: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+# Materiały: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+# Cząsteczki: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Particle.html
+# BossBar: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BossBar.html
+#
+# Format kolorów:
+# Używaj kolorów hex w formacie &#RRGGBB razem ze standardowym formatowaniem Minecrafta
+# takim jak &a, &b, &l, &7 itd.
+####################################################################################################
+
+########################################
+# SPRAWDZANIE AKTUALIZACJI
+# Włącza automatyczne sprawdzanie wersji
+########################################
+update-checker:
+  enabled: true
+
+########################################
+# PAMIĘĆ / BAZA DANYCH
+# SQLITE jest zalecane dla małych serwerów.
+# MYSQL jest zalecane dla większych sieci.
+########################################
+storage-type: "SQLITE"
+
+mysql:
+  host: "localhost"
+  port: 3306
+  database: "minecraft"
+  username: "minecraft"
+  password: "mc123"
+  table_prefix: "f0effects_"
+
+########################################
+# BOSSBAR
+# Pokazuje aktywny efekt na górze ekranu gracza
+########################################
+bossbar:
+  enabled: true
+  title: "&#00AAFF✦ &lAKTYWNY EFEKT: %effect% &8(&bPoziom %level%&8)"
+  color: "BLUE"
+  style: "SOLID"
+
+########################################
+# DŹWIĘKI
+# Używają nazw dźwięków Bukkit/Spigot
+########################################
+sounds:
+  effect-selected:
+    sound: "ENTITY_EXPERIENCE_ORB_PICKUP"
+    volume: 1.0
+    pitch: 1.1
+
+  level-up:
+    sound: "ENTITY_PLAYER_LEVELUP"
+    volume: 1.0
+    pitch: 1.2
+
+  not-enough-money:
+    sound: "ENTITY_VILLAGER_NO"
+    volume: 1.0
+    pitch: 1.0
+
+  missing-previous-level:
+    sound: "ENTITY_ITEM_BREAK"
+    volume: 1.0
+    pitch: 0.6
+
+########################################
+# WIADOMOŚCI
+# Wiadomości wyświetlane graczom
+########################################
+messages:
+  no-permission: "&#0066FF✖ Nie masz uprawnień do użycia tej komendy."
+  effect-selected: "&#00AAFF✔ Aktywowano efekt: &b%effect%"
+  visual-selected: "&#00AAFF✔ Zmieniono efekt wizualny na: &b%visual%"
+  not-enough-money: "&#0066FF✖ Brakuje Ci pieniędzy. &7Potrzebujesz &#00AAFF%cost%$ &7, aby to kupić."
+  level-up: "&#00AAFF⭐ Zakupiono ulepszenie: &b%effect% &7(Poziom &b%level%&7)"
+  visual-bought: "&#00AAFF✨ Zakupiono efekt wizualny: &b%visual%"
+  update-available: "&#00AAFF⚠ Dostępna jest nowa wersja: &b%latest% &7(obecna: %current%)"
+  update-link: "&#3399FF➜ Pobierz: &b%url%"
+
+########################################
+# PLACEHOLDERY
+# Wartości wielokrotnego użytku w menu i wiadomościach
+########################################
+placeholders:
+  none-selected: "&7Brak"
+  format: "%effect_name% &8(&bLvl %level%&8)"
+  duration-format: "%seconds%s"
+  max-level: "&bMAX"
+  boolean-true: "&aTak"
+  boolean-false: "&cNie"
+
+########################################
+# GUI
+# Menu ekwipunku dla efektów, ulepszeń i efektów wizualnych
+########################################
+gui:
+  main:
+    title: "&#00AAFF✦ &lWYBIERZ SWÓJ EFEKT"
+    size: 45
+
+    info-book:
+      slot: 24
+      material: "BOOK"
+      name: "&#3399FF📘 &lO efektach"
+      lore:
+        - "&#AAAAAAWybierz bonus bojowy"
+        - "&#AAAAAAktóry aktywuje się po zabójstwie."
+
+    visuals-item:
+      slot: 42
+      material: "ENDER_EYE"
+      name: "&#00AAFF👁 &lEFEKTY WIZUALNE"
+      lore:
+        - "&#AAAAAADostosuj animację po zabójstwie."
+        - ""
+        - "&#00AAFF➤ Kliknij, aby otworzyć"
+
+    upgrade-item:
+      slot: 43
+      material: "ANVIL"
+      name: "&#00AAFF⭐ &lULEPSZENIA EFEKTÓW"
+      lore:
+        - "&#AAAAAAWiększa siła, krótszy czas trwania."
+        - ""
+        - "&#00AAFF➤ Kliknij, aby otworzyć"
+
+    close-item:
+      slot: 44
+      material: "BARRIER"
+      name: "&#0066FF✖ &lZamknij"
+
+  upgrade:
+    title: "&#00AAFF⭐ &lSKLEP ULEPSZEŃ"
+    size: 45
+
+    format:
+      duration: "&#AAAAAA⏳ Czas trwania: &#00AAFF%duration%s"
+      cost: "&#AAAAAA💲 Koszt: &#00AAFF%cost%$"
+      unlocked: "&#00AAFF✔ Ten poziom jest już odblokowany."
+      can-buy: "&#3399FF➤ Kliknij, aby kupić."
+      locked: "&#0066FF✖ Najpierw kup poprzedni poziom."
+
+    info-book:
+      slot: 24
+      material: "BOOK"
+      name: "&#3399FF📘 &lSystem ulepszeń"
+      lore:
+        - "&#AAAAAAUlepszaj efekty,"
+        - "&#AAAAAAaby uzyskać wyższy poziom mocy."
+
+    back-item:
+      slot: 43
+      material: "ARROW"
+      name: "&#3399FF↩ &lPowrót"
+
+    close-item:
+      slot: 44
+      material: "BARRIER"
+      name: "&#0066FF✖ &lZamknij"
+
+  visuals:
+    title: "&#00AAFF👁 &lKOSMETYKA EFEKTÓW"
+    size: 45
+
+    format:
+      unlocked: "&#00AAFF✔ Odblokowany"
+      selected: "&#3399FF⭐ Aktualnie wybrany"
+      click-to-select: "&#00AAFF➤ Kliknij, aby wybrać"
+      cost: "&#AAAAAA💲 Koszt: &#00AAFF%cost%$"
+      click-to-buy: "&#00AAFF➤ Kliknij, aby kupić"
+
+    back-item:
+      slot: 43
+      material: "ARROW"
+      name: "&#3399FF↩ &lPowrót do menu"
+
+    close-item:
+      slot: 44
+      material: "BARRIER"
+      name: "&#0066FF✖ &lZamknij"
+
+########################################
+# EFEKTY
+# Główne bonusy aktywowane po zabójstwie
+# amplifier: poziom siły efektu (0 = poziom 1)
+# duration: w tickach (20 ticków = 1 sekunda)
+########################################
+effects:
+  SPEED:
+    material: "SUGAR"
+    name: "&#00AAFF⚡ &lSZYBKOŚĆ"
+    slot: 19
+    upgrade-slots: [10, 19, 28]
+    lore:
+      - "&#AAAAAAZyskujesz duży zastrzyk szybkości"
+      - "&#AAAAAApo każdym zabójstwie."
+      - ""
+      - "&#00AAFF➤ Odblokowany poziom: &b%level%"
+      - ""
+      - "&#3399FF➤ Kliknij, aby wybrać"
+    levels:
+      1: { amplifier: 0, duration: 200, cost: 1500 }
+      2: { amplifier: 1, duration: 140, cost: 4000 }
+      3: { amplifier: 2, duration: 100, cost: 9000 }
+
+  RESISTANCE:
+    material: "CHAINMAIL_CHESTPLATE"
+    name: "&#3399FF🛡 &lODPORNOŚĆ"
+    slot: 20
+    upgrade-slots: [11, 20, 29]
+    lore:
+      - "&#AAAAAAOtrzymujesz znacznie mniejsze obrażenia"
+      - "&#AAAAAApo zabójstwie."
+      - ""
+      - "&#00AAFF➤ Odblokowany poziom: &b%level%"
+      - ""
+      - "&#3399FF➤ Kliknij, aby wybrać"
+    levels:
+      1: { amplifier: 0, duration: 200, cost: 2000 }
+      2: { amplifier: 1, duration: 140, cost: 5000 }
+      3: { amplifier: 2, duration: 100, cost: 11000 }
+
+  REGENERATION:
+    material: "GOLDEN_APPLE"
+    name: "&#00CCFF❤ &lREGENERACJA"
+    slot: 21
+    upgrade-slots: [12, 21, 30]
+    lore:
+      - "&#AAAAAATwoje zdrowie regeneruje się szybciej"
+      - "&#AAAAAApo zabójstwie."
+      - ""
+      - "&#00AAFF➤ Odblokowany poziom: &b%level%"
+      - ""
+      - "&#3399FF➤ Kliknij, aby wybrać"
+    levels:
+      1: { amplifier: 0, duration: 200, cost: 2500 }
+      2: { amplifier: 1, duration: 140, cost: 6000 }
+      3: { amplifier: 2, duration: 100, cost: 13000 }
+
+  STRENGTH:
+    material: "IRON_SWORD"
+    name: "&#0066FF⚔ &lSIŁA"
+    slot: 22
+    upgrade-slots: [13, 22, 31]
+    lore:
+      - "&#AAAAAAYadasz znacznie większe obrażenia"
+      - "&#AAAAAApo zabójstwie."
+      - ""
+      - "&#00AAFF➤ Odblokowany poziom: &b%level%"
+      - ""
+      - "&#3399FF➤ Kliknij, aby wybrać"
+    levels:
+      1: { amplifier: 0, duration: 200, cost: 3000 }
+      2: { amplifier: 1, duration: 140, cost: 7000 }
+      3: { amplifier: 2, duration: 100, cost: 15000 }
+
+########################################
+# EFEKTY WIZUALNE
+# Kosmetyczne efekty po zabójstwie
+# material musi być poprawnym Bukkit Material
+# sound musi być poprawnym Bukkit Sound
+# nazwy particle muszą zgadzać się z Bukkit Particle
+########################################
+visual-effects:
+  LIGHTNING:
+    name: "&#3399FF⚡ Błyskawica"
+    material: "LIGHTNING_ROD"
+    cost: 5000
+    slot: 10
+    visuals:
+      lightning: true
+      sound: "ENTITY_LIGHTNING_BOLT_THUNDER"
+
+  FIREWORK:
+    name: "&#66B2FF🎆 Fajerwerki"
+    material: "FIREWORK_ROCKET"
+    cost: 3000
+    slot: 11
+    visuals:
+      firework: true
+
+  ELDER_GUARDIAN:
+    name: "&#00CCFF👻 Klątwa ducha"
+    material: "PRISMARINE_SHARD"
+    cost: 15000
+    slot: 12
+    visuals:
+      elder-guardian: true
+      sound: "ENTITY_ELDER_GUARDIAN_CURSE"
+
+  HEARTS:
+    name: "&#66B2FF❤ Rozkwit serc"
+    material: "POPPY"
+    cost: 2000
+    slot: 13
+    visuals:
+      particles: ["HEART"]
+
+  FLAMES:
+    name: "&#3399FF🔥 Niebieski ogień"
+    material: "BLAZE_POWDER"
+    cost: 4000
+    slot: 14
+    visuals:
+      particles: ["FLAME", "LAVA"]
+
+  CLOUD:
+    name: "&#99CCFF☁ Chmura"
+    material: "WHITE_WOOL"
+    cost: 1000
+    slot: 19
+    visuals:
+      particles: ["CLOUD"]
+
+  MAGIC:
+    name: "&#66B2FF✨ Arkanum"
+    material: "DRAGON_BREATH"
+    cost: 8000
+    slot: 20
+    visuals:
+      particles: ["REVERSE_PORTAL", "WITCH"]
+
+  SONIC:
+    name: "&#3399FF🔊 Fala dźwiękowa"
+    material: "ECHO_SHARD"
+    cost: 12000
+    slot: 21
+    visuals:
+      sound: "ENTITY_WARDEN_SONIC_BOOM"
+      particles: ["SONIC_BOOM"]
+
+  TOTEM:
+    name: "&#99CCFF🌟 Nieśmiertelność"
+    material: "TOTEM_OF_UNDYING"
+    cost: 25000
+    slot: 22
+    visuals:
+      particles: ["TOTEM_OF_UNDYING"]
+      sound: "ITEM_TOTEM_USE"
+
+  SOUL:
+    name: "&#00AAFF💀 Żniwo dusz"
+    material: "SOUL_SAND"
+    cost: 10000
+    slot: 23
+    visuals:
+      particles: ["SOUL", "SOUL_FIRE_FLAME"]
+
+  BLOOD:
+    name: "&#3399FF🩸 Masakra"
+    material: "REDSTONE"
+    cost: 5000
+    slot: 28
+    visuals:
+      particles: ["BLOCK_DUST"]
+
+  ENDER:
+    name: "&#550055🌌 Wędrowiec pustki"
+    material: "ENDER_PEARL"
+    cost: 7000
+    slot: 29
+    visuals:
+      particles: ["PORTAL", "DRAGON_BREATH"]
+
+  VILLAGER:
+    name: "&#66B2FF✳ Szczęśliwy kill"
+    material: "EMERALD"
+    cost: 3000
+    slot: 30
+    visuals:
+      particles: ["VILLAGER_HAPPY"]
+      sound: "ENTITY_VILLAGER_YES"
+
+  EXPLOSION:
+    name: "&#555555💣 Bum"
+    material: "TNT"
+    cost: 10000
+    slot: 31
+    visuals:
+      particles: ["EXPLOSION_HUGE"]
+      sound: "ENTITY_GENERIC_EXPLODE"
+
+  DRAGON:
+    name: "&#3399FF🐲 Oddech smoka"
+    material: "DRAGON_EGG"
+    cost: 50000
+    slot: 32
+    visuals:
+      sound: "ENTITY_ENDER_DRAGON_GROWL"
+      particles: ["DRAGON_BREATH", "LARGE_SMOKE"]
