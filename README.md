@@ -1,241 +1,151 @@
 <h1 align="center">⚔ f0Effects</h1>
+
 <p align="center">
-  Advanced Kill Effect System for Competitive Minecraft PvP Servers
+  <b>Advanced Kill Effect & Visuals System for Competitive Minecraft</b>
+  <br>
+  <i>Version 1.3.0 - Built for Performance and Style</i>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Minecraft-1.19+-blue.svg">
   <img src="https://img.shields.io/badge/Platform-Spigot%20%7C%20Paper-blue">
-  <img src="https://img.shields.io/badge/Storage-MySQL-blue">
-  <img src="https://img.shields.io/badge/Storage-SQLite-blue">
-  <img src="https://img.shields.io/badge/Status-Active%20Development-blue">
+  <img src="https://img.shields.io/badge/Storage-MySQL%20%7C%20SQLite-blue">
+  <img src="https://img.shields.io/badge/Colors-HEX%20Support-blue">
+</p>
+
+---
+
+## 🎬 Preview
+
+<p align="center">
+  <a href="https://youtu.be/5trLWXZLhJA">
+    <img src="https://github.com/jaku49/f0Effects/blob/main/images/8612b441-f561-4864-be6e-f0340d504cc1.png?raw=true" width="900" alt="f0Effects - YouTube Presentation">
+  </a>
+</p>
+
+<p align="center">
+  <b>Watch the full plugin presentation on YouTube</b>
 </p>
 
 ---
 
 ## ✨ Overview
 
-**f0Effect** is a competitive PvP plugin that grants temporary combat effects after killing another player.
+**f0Effects** is a premium-grade reward system for PvP servers. It bridges the gap between gameplay and aesthetics by granting players temporary combat "Potions" and stunning visual animations upon every kill.
 
-Each effect can be upgraded:
-
-- Higher level → stronger amplifier  
-- Higher level → shorter duration  
-- Higher level → significantly higher cost  
-
-The system is built for fast arena gameplay and clean visual feedback.
+### Key Features:
+* **Dynamic Balancing:** Higher levels grant massive power but for a shorter, high-adrenaline window.
+* **Modern Aesthetics:** Full **HEX Color (&#RRGGBB)** support for a truly custom look.
+* **Zero Lag:** Optimized data handling with **MySQL** or **SQLite** backend.
+* **Total Immersion:** Integrated **BossBar** timers and custom soundscapes.
 
 ---
 
-# 🎮 Effect Selection GUI
+## ⌨ Commands & Permissions
+
+Access the system through a wide variety of aliases: `killeffects`, `ke`, `keffect`, `efectsfromkill`, `efekty`, `effects`, `f0ef`.
+
+### Player Commands
+| Command | Description | Permission |
+|:---|:---|:---|
+| `/f0effects` | Opens the main GUI (Effects, Upgrades, Visuals). | `f0effects.use` |
+| `/f0effects help` | Displays a list of available commands. | `f0effects.use` |
+
+### Admin Management Commands
+| Command | Description | Permission |
+|:---|:---|:---|
+| `/f0effects reload` | Instantly reloads config, messages, and database. | `f0effects.admin` |
+| `/f0effects set <p> <effect> <lvl>` | Manually set a player's upgrade level for an effect. | `f0effects.admin` |
+| `/f0effects clear <player>` | Clears the currently selected effect for a player. | `f0effects.admin` |
+
+> [!NOTE]
+> The `<effect>` argument for the admin command corresponds to the internal names: `SPEED`, `RESISTANCE`, `REGENERATION`, `STRENGTH`.
+
+---
+
+## 📷 Interface & Interaction
+
+The interface is designed for speed. No clutter, just clean navigation to get players back into the fight.
+
+### Effect Selection GUI
+Players can toggle their active combat benefit with a single click in a clean, modern menu.
 
 <p align="center">
-  <img src="images/ef_active.jpg" width="800"/>
+  <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/javaw_6wogNPlXTz.png" width="800" alt="Effect Selection GUI"/>
+</p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/javaw_xb4LLcnzcT.png" width="800" alt="Effect Selection GUI"/>
 </p>
 
-### Clean and Minimal Layout
-
-Players can:
-
-- Select one active effect
-- See current upgrade level
-- Instantly activate it
-- Navigate to upgrade shop
-
-Simple layout. No clutter. Immediate feedback.
-
----
-
-# 📘 About Effects Panel
+### Upgrade Shop
+The upgrade menu clearly displays progression, showing exactly what is unlocked, what can be purchased, and the costs involved.
 
 <p align="center">
-  <img src="images/ef_info.jpg" width="800"/>
+  <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/javaw_C9DqOnKdBo.png" width="800" alt="Upgrade Shop"/>
 </p>
-
-Short explanation directly inside GUI.
-
-Clear information:
-- Effects activate after killing a player
-- Designed for arena PvP
-- Fast-paced combat boost system
 
 ---
 
-# ⬆ Upgrade Shop
+## 🛡 Combat Effects (The Meta)
+
+| Effect | Power (Lvl 3) | Duration (Lvl 3) | Total Cost |
+|:---|:---|:---|:---|
+| ⚡ **SPEED** | Speed III | 5 Seconds | 14,500$ |
+| 🛡 **RESISTANCE** | Resistance III | 5 Seconds | 18,000$ |
+| ❤ **REGENERATION** | Regen III | 5 Seconds | 21,500$ |
+| ⚔ **STRENGTH** | Strength III | 5 Seconds | 25,000$ |
+
+---
+
+## 👁 Visual Cosmetics
+
+Make every kill a spectacle. Beyond combat buffs, players can select visual animations in a dedicated GUI.
 
 <p align="center">
-  <img src="images/us_info.jpg" width="800"/>
+  <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/javaw_0JtG4W0P57.png" width="800" alt="Visual Selection GUI"/>
 </p>
 
-### Upgrade Philosophy
-
-Higher level means:
-
-- More power  
-- Shorter duration  
-- Higher investment  
-
-Levels must be purchased in order.
+**Featured Visuals:**
+* ⚡ **Lightning Bolt:** Strikes the ground with a thunderous roar.
+* 🎆 **Firework Burst:** A celebratory explosion in the sky.
+* 🔊 **Sonic Boom:** Uses the Warden's devastating shockwave effect.
+* 💀 **Soul Reap:** Souls of the fallen rise from the ground.
+* 🐉 **Dragon's Breath:** The ultimate cosmetic featuring the Ender Dragon's growl.
 
 ---
 
-## 💰 Purchasing Example
+## ⚙ Technical Highlights
+
+### Dynamic BossBar
+When an effect is triggered, an elegant BossBar appears at the top of the screen to act as a countdown timer.
 
 <p align="center">
-  <img src="images/us_buy.jpg" width="800"/>
+  <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/javaw_dbVw7VrrTr.png" width="900" alt="BossBar Display"/>
 </p>
 
-- Duration displayed clearly
-- Cost shown directly
-- One-click purchase
+### PlaceholderAPI Support
+* `%f0effects_selected%` — Active effect name.
+* `%f0effects_selected_format%` — Formatted name + level.
+* `%f0effects_level_<EFFECT>%` — Current level of a specific perk.
 
 ---
 
-## 🔒 Locked Level Example
+## 🚀 Roadmap
 
-<p align="center">
-  <img src="images/us_levelneeded.jpg" width="800"/>
-</p>
-
-If a previous level is missing, purchase is blocked automatically.
-
-Prevents skipping progression.
-
----
-
-## ✅ Already Owned Level
-
-<p align="center">
-  <img src="images/us_own.jpg" width="800"/>
-</p>
-
-Clear feedback when player already owns the upgrade.
-
----
-
-# 📊 BossBar Display
-
-<p align="center">
-  <img src="images/bossbar.jpg" width="900"/>
-</p>
-
-When effect activates:
-
-- Blue BossBar appears
-- Displays effect name
-- Displays current level
-- Automatically disappears after duration
-
-Fully configurable in `config.yml`.
-
----
-
-# 🔥 Default Effects
-
-| Effect       | Description |
-|-------------|------------|
-| ⚡ SPEED        | Movement boost after kill |
-| 🛡 RESISTANCE   | Damage reduction |
-| ❤ REGENERATION | Health recovery |
-| ⚔ STRENGTH     | Increased attack damage |
-
-### Default Duration Scaling
-
-| Level | Duration |
-|--------|----------|
-| I      | 10 seconds |
-| II     | 7 seconds |
-| III    | 5 seconds |
-
-20 ticks = 1 second.
-
----
-
-# ⚙ Configuration
-
-Fully customizable:
-
-- Messages (HEX color support)
-- GUI layout
-- Sounds
-- MySQL database
-- BossBar style
-- Effect cost and amplifier scaling
-
-Official references:
-
-Materials:  
-https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html  
-
-Sounds:  
-https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html  
-
----
-
-# 🔌 PAPI
-
-| Placeholder | Description | Example Output |
-| :--- | :--- | :--- |
-| `%f0effects_selected%` | Returns the clean, colored name of the currently selected effect directly from the configuration. | `⚡ SPEED` (or `---`) |
-| `%f0effects_selected_level%` | Returns the numeric level of the currently active effect. | `2` (or `0`) |
-| `%f0effects_selected_format%` | Returns elegantly formatted text combining the effect name and its current level. | `⚡ SPEED (Lvl 2)` |
-| `%f0effects_selected_duration%` | Returns the duration (in seconds) of the currently selected upgrade. | `10s` (or `0s`) |
-| `%f0effects_level_<EFFECT>%` | Checks the level of a specific effect, even if the player is not currently using it. | `3` |
-| `%f0effects_next_cost_<EFFECT>%` | Returns the upgrade cost for the next level. Returns "MAX" if the player has already reached level 3. | `2500` (or `MAX`) |
-| `%f0effects_is_max_<EFFECT>%` | A boolean check returning whether the player has purchased all available upgrades for a given category. | `Yes` (or `No`) | 
-
----
-
-# 🛠 Installation
-
-1. Place plugin into `/plugins`
-2. Restart server
-3. Configure `config.yml`
-4. Done
-
-Supports modern Spigot and Paper versions.
-
----
-
-> [!IMPORTANT]
-> The config.yml file must be deleted before updating.
-
----
-
-# 🚀 Roadmap
-
-### Planned Features
-
-- [X] SQLite support
-- [X] PlaceholderAPI support
-- [ ] Expand permissions
-- [ ] Per-arena configuration  
-- [ ] Effect cooldown system  
-- [ ] Player statistics tracking  
-- [ ] Particle customization  
-- [ ] Transferring the remaining messages to the config
+- [x] SQLite support
+- [x] Full MySQL Cross-Server Support
+- [x] Admin `/set` and `/clear` command system
+- [X] Visual effects system
+- [ ] Effect cooldown system
+- [ ] Per-arena configuration
+- [X] Particle customization
+- X ] Transferring the remaining messages to the config
 - [ ] Add support for Polish (the author's native language) and German.
 
----
-
-# 📈 Why f0Effect?
-
-- Competitive balance focused
-- Short but impactful mechanics
-- Clean modern GUI
-- Clear feedback system
-- Lightweight and scalable
-
-Built for serious PvP servers.
-
----
-
-# 📜 License
-
-MIT License
 
 ---
 
 <p align="center">
-  Designed for competitive Minecraft environments.
+  <b>Built for competitive Minecraft networks.</b><br>
+  <i>Empower your players. Reward the grind. Master the battlefield.</i>
 </p>
