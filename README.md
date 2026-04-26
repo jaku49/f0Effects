@@ -146,7 +146,7 @@ When an effect is triggered, an elegant BossBar appears at the top of the screen
 
 - [x] SQLite support
 - [x] Full MySQL Cross-Server Support
-- [x] Admin `/set` and `/clear` command system
+- [x] Admin `set` and `clear` command system
 - [X] Visual effects system
 - [ ] Effect cooldown system
 - [ ] Per-arena configuration
