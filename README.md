@@ -3,7 +3,7 @@
 <p align="center">
   <b>Advanced Kill Effect & Visuals System for Competitive Minecraft</b>
   <br>
-  <i>Version 1.3.0 - Built for Performance and Style</i>
+  <i>Version 1.3.1 - Built for Performance and Style</i>
 </p>
 
 <p align="center">
