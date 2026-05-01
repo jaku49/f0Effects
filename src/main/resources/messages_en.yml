@@ -1,0 +1,256 @@
+# f0Effects 1.4.0 - configuration language file for English
+
+prefix: "<gradient:#FBE4D6:#261FB3><b>[KillEffects]</b></gradient> <gray>"
+
+messages:
+  no-permission: "<#261FB3>✖ <#FBE4D6>You do not have permission to use this command."
+  effect-selected: "<#FBE4D6>✔ <#261FB3>Activated effect: <bold>%effect%</bold>"
+  visual-selected: "<#FBE4D6>✔ <#261FB3>Changed visual effect to: <bold>%visual%</bold>"
+  not-enough-money: "<#261FB3>✖ <#FBE4D6>Not enough money. <gray>You need <#FBE4D6>%cost%$"
+  level-up: "<#FBE4D6>⭐ <#261FB3>Purchased upgrade: <bold>%effect%</bold> <gray>(Level <#FBE4D6>%level%</#FBE4D6>)"
+  visual-bought: "<#FBE4D6>✨ <#261FB3>Purchased visual effect: <bold>%visual%</bold>"
+  effect-cleared: "%prefix%<#FBE4D6>✔ <green>Successfully</green> <gray>disabled your kill effect."
+  player-only: "<#161179>This menu is only for players!"
+  reload-success: "<#FBE4D6>✔ <#261FB3>The plugin has been reloaded successfully!"
+
+  update-available:
+    - "<#0C0950><strikethrough>========================================</strikethrough>"
+    - "%prefix%<#FBE4D6>A new plugin version is available!"
+    - ""
+    - "<gray>Current version: <#FBE4D6>%current%"
+    - "<gray>Latest version: <#FBE4D6>%latest%"
+    - ""
+    - "<gray>Download here: <#261FB3>%link%"
+    - "<#0C0950><strikethrough>========================================</strikethrough>"
+
+  about-command:
+    - "<#0C0950><strikethrough>----------------------------------------</strikethrough>"
+    - "<gradient:#FBE4D6:#261FB3><b>f0Effects</b></gradient> <gray>- Information"
+    - ""
+    - "<gray>Version: <#FBE4D6>%version_color%%version%"
+    - "<gray>Engine: <white>%server_type%</white> <dark_gray>(<gray>%server_version%</gray>)</dark_gray>"
+    - "<gray>Detected hooks: <#FBE4D6>%hooks%"
+    - "<gray>Update Checker: <#FBE4D6>%update_checker%"
+    - "<gray>Database: %database_status_color%%database_status% <dark_gray>(<gray>%database_type%</gray>)</dark_gray>"
+    - "<gray>Loaded effects: <#FBE4D6>%effects_number%"
+    - "<gray>Loaded visuals: <#FBE4D6>%effects_visual_number%"
+    - "<#0C0950><strikethrough>----------------------------------------</strikethrough>"
+
+bossbar:
+  title: "<gradient:#FBE4D6:#261FB3><b>ACTIVE EFFECT: %effect%</b></gradient> <dark_gray>(<#FBE4D6>Lvl %level%</#FBE4D6>)"
+
+gui:
+  main:
+    title: "<gradient:#0C0950:#261FB3><b>✦ CHOOSE YOUR EFFECT ✦</b></gradient>"
+    info-book:
+      name: "<#FBE4D6>📘 <b>How does it work?</b>"
+      lore:
+        - "<gray>Choose a bonus that activates"
+        - "<gray>after each kill."
+    clear-item:
+      name: "<gradient:#FBE4D6:#261FB3><b>🥛 <b>Clear Effects</b></gradient>"
+      lore:
+        - "<gray>Removes the current bonus"
+        - "<gray>you get after a kill."
+        - ""
+        - "<#261FB3>▸ Click to remove the effect"
+    settings-item:
+      name: "<gradient:#FBE4D6:#261FB3><b>⚙ SETTINGS</b></gradient>"
+      lore:
+        - "<gray>Manage volume, notifications"
+        - "<gray>and effect performance."
+        - ""
+        - "<#261FB3>▸ Click to open"
+    upgrade-item:
+      name: "<gradient:#FBE4D6:#261FB3><b>⭐ <b>UPGRADES</b></gradient>"
+      lore:
+        - "<gray>More power, but shorter duration."
+        - ""
+        - "<#261FB3>▸ Click to open"
+    visuals-item:
+      name: "<gradient:#FBE4D6:#261FB3><b>👁 <b>VISUAL COSMETICS</b></gradient>"
+      lore:
+        - "<gray>Change the look of your kill animation."
+        - ""
+        - "<#261FB3>▸ Click to open"
+    close-item:
+      name: "<#261FB3>✖ <b>Close</b>"
+
+  upgrade:
+    title: "<gradient:#0C0950:#261FB3><b>⭐ UPGRADE SHOP</b></gradient>"
+    format:
+      duration: "<gray>⏳ Duration: <#FBE4D6>%duration%s"
+      cost: "<gray>💲 Price: <#FBE4D6>%cost%$"
+      unlocked: "<#FBE4D6>✔ You already own this"
+      can-buy: "<#261FB3>➤ Click to buy"
+      locked: "<#161179>✖ Buy level %required_level% first"
+    info-book:
+      name: "<#FBE4D6>📘 <b>Upgrade system</b>"
+      lore:
+        - "<gray>Upgrade effects to gain"
+        - "<gray>a stronger bonus level."
+    back-item:
+      name: "<#FBE4D6>↩ <b>Back</b>"
+    close-item:
+      name: "<#261FB3>✖ <b>Close</b>"
+
+  visuals:
+    title: "<gradient:#0C0950:#261FB3><b>👁 VISUAL SELECTION</b></gradient>"
+    format:
+      unlocked: "<#FBE4D6>✔ Unlocked"
+      selected: "<#261FB3>⭐ Currently selected"
+      click-to-select: "<#FBE4D6>▸ Click to select"
+      cost: "<gray>Price: <#FBE4D6>%cost%$"
+      click-to-buy: "<#FBE4D6>▸ Click to buy"
+    back-item:
+      name: "<#FBE4D6>↩ <b>Back to Menu</b>"
+    close-item:
+      name: "<#261FB3>✖ <b>Close</b>"
+
+  settings:
+    title: "<gradient:#FBE4D6:#261FB3><b>⚙ PLAYER SETTINGS</b></gradient>"
+    back-item:
+      name: "<#FBE4D6>↩ <b>Back to Menu</b>"
+    close-item:
+      name: "<#261FB3>✖ <b>Close</b>"
+
+    status-on: "<gradient:#FBE4D6:#261FB3>Enabled</gradient>"
+    status-off: "<gradient:#161179:#0C0950>Disabled</gradient>"
+
+    own-effects:
+      name: "<#FBE4D6>✨ <b>Your Effects</b>"
+      lore:
+        - "<gray>Visibility of animations after YOUR kill."
+        - ""
+        - "<gray>Current: %status%"
+        - ""
+        - "<#FBE4D6>▸ Click to toggle"
+    other-effects:
+      name: "<#FBE4D6>👥 <b>Other Players' Effects</b>"
+      lore:
+        - "<gray>Visibility of other players' animations."
+        - "<gray>(Disable this if you have lag)."
+        - ""
+        - "<gray>Current: %status%"
+        - ""
+        - "<#FBE4D6>▸ Click to toggle"
+    chat-messages:
+      name: "<#FBE4D6>✉ <b>Chat Messages</b>"
+      lore:
+        - "<gray>Chat messages after activation."
+        - ""
+        - "<gray>Current: %status%"
+        - ""
+        - "<#FBE4D6>▸ Click to toggle"
+    bossbar:
+      name: "<#FBE4D6>📊 <b>BossBar</b>"
+      lore:
+        - "<gray>Shows a bar with your active"
+        - "<gray>effect at the top of the screen."
+        - ""
+        - "<gray>Current: %status%"
+        - ""
+        - "<#FBE4D6>▸ Click to toggle"
+
+    volume-title:
+      name: "<#FBE4D6>🔊 <b>Volume: %percent%%</b>"
+      lore:
+        - "<gray>Sound intensity of your effects."
+    volume-segment:
+      selected: "<#FBE4D6>● <gray>This level is selected"
+      not-selected: "<dark_gray>○ <gray>Click to choose"
+
+effects:
+  SPEED:
+    name: "<#FBE4D6>⚡ <b>SPEED</b>"
+    lore:
+      - "<gray>Gain massive movement speed"
+      - "<gray>after a kill."
+      - ""
+      - "<#FBE4D6>▸ Unlocked level: <bold>%level%</bold>"
+      - ""
+      - "<#261FB3>➤ Click to select"
+
+  RESISTANCE:
+    name: "<#FBE4D6>🛡 <b>RESISTANCE</b>"
+    lore:
+      - "<gray>Receive significantly less"
+      - "<gray>damage after a kill."
+      - ""
+      - "<#FBE4D6>▸ Unlocked level: <bold>%level%</bold>"
+      - ""
+      - "<#261FB3>➤ Click to select"
+
+  REGENERATION:
+    name: "<#FBE4D6>❤ <b>REGENERATION</b>"
+    lore:
+      - "<gray>Your health regenerates"
+      - "<gray>very quickly after a kill."
+      - ""
+      - "<#FBE4D6>▸ Unlocked level: <bold>%level%</bold>"
+      - ""
+      - "<#261FB3>➤ Click to select"
+
+  STRENGTH:
+    name: "<#FBE4D6>⚔ <b>STRENGTH</b>"
+    lore:
+      - "<gray>You deal dramatically more"
+      - "<gray>damage after a kill."
+      - ""
+      - "<#FBE4D6>▸ Unlocked level: <bold>%level%</bold>"
+      - ""
+      - "<#261FB3>➤ Click to select"
+
+visual-effects:
+  LIGHTNING:
+    name: "<#FBE4D6>⚡ Lightning"
+
+  FIREWORK:
+    name: "<#FBE4D6>🎆 Fireworks"
+
+  ELDER_GUARDIAN:
+    name: "<#FBE4D6>👻 Guardian Curse"
+
+  HEARTS:
+    name: "<#FBE4D6>❤ Love Kill"
+
+  FLAMES:
+    name: "<#FBE4D6>🔥 Infernal"
+
+  CLOUD:
+    name: "<#FBE4D6>☁ Angelic"
+
+  MAGIC:
+    name: "<#FBE4D6>✨ Magical"
+
+  SONIC:
+    name: "<#FBE4D6>🔊 Sonic Boom"
+
+  TOTEM:
+    name: "<#FBE4D6>🌟 Immortality"
+
+  SOUL:
+    name: "<#FBE4D6>💀 Soul Reaper"
+
+  BLOOD:
+    name: "<#FBE4D6>🩸 Bloodbath"
+
+  ENDER:
+    name: "<#FBE4D6>🌌 Void Wanderer"
+
+  VILLAGER:
+    name: "<#FBE4D6>✳ Happy Kill"
+
+  EXPLOSION:
+    name: "<#FBE4D6>💣 Kaboom"
+
+  DRAGON:
+    name: "<#FBE4D6>🐲 Dragon's Breath"
+
+placeholders:
+  none-selected: "<#161179>---"
+  boolean-true: "<#FBE4D6>Enabled"
+  boolean-false: "<#161179>Disabled"
+  max-level: "<#FBE4D6>MAX"
+  format: "%effect_name% <dark_gray>(<#FBE4D6>Lvl %level%</#FBE4D6>)"
+  duration-format: "%seconds%s"

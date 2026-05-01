@@ -1,5 +1,4 @@
 package me.f0rant.f0effects.manager;
-
 import me.f0rant.f0effects.f0Effects;
 import me.f0rant.f0effects.utils.ColorUtil;
 import org.bukkit.Bukkit;
@@ -8,7 +7,6 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -30,9 +28,9 @@ public class BossBarManager {
         removeBossBar(player);
 
         String effectName = plugin.getConfig().getString("effects." + effectKey + ".name", effectKey);
-        String title = plugin.getConfig().getString("bossbar.title")
-                .replace("%effect%", effectName)
-                .replace("%level%", String.valueOf(level));
+        String title = plugin.getLanguageManager().getMsg("bossbar.title")
+            .replace("%effect%", effectName)
+            .replace("%level%", String.valueOf(level));
 
         BarColor color = BarColor.valueOf(plugin.getConfig().getString("bossbar.color", "RED").toUpperCase());
         BarStyle style = BarStyle.valueOf(plugin.getConfig().getString("bossbar.style", "SOLID").toUpperCase());

@@ -55,11 +55,30 @@ public class DatabaseManager {
     private void createTables() throws SQLException {
         try (Connection conn = dataSource.getConnection()) {
             conn.prepareStatement("CREATE TABLE IF NOT EXISTS " + tablePrefix + "data (" +
-                    "uuid VARCHAR(36) PRIMARY KEY, nickname VARCHAR(16), selected_effect VARCHAR(32), selected_visual VARCHAR(32))").executeUpdate();
+                    "uuid VARCHAR(36) PRIMARY KEY, " +
+                    "nickname VARCHAR(16), " +
+                    "selected_effect VARCHAR(32), " +
+                    "selected_visual VARCHAR(32), " +
+                    "own_effects BOOLEAN DEFAULT 1, " +
+                    "other_effects BOOLEAN DEFAULT 1, " +
+                    "chat_messages BOOLEAN DEFAULT 1, " +
+                    "bossbar BOOLEAN DEFAULT 1, " +
+                    "volume FLOAT DEFAULT 1.0)").executeUpdate();
             
-            try {
-                conn.prepareStatement("ALTER TABLE " + tablePrefix + "data ADD COLUMN selected_visual VARCHAR(32)").executeUpdate();
-            } catch (SQLException ignored) {
+            String[] newColumns = {
+                "selected_visual VARCHAR(32)",
+                "own_effects BOOLEAN DEFAULT 1",
+                "other_effects BOOLEAN DEFAULT 1",
+                "chat_messages BOOLEAN DEFAULT 1",
+                "bossbar BOOLEAN DEFAULT 1",
+                "volume FLOAT DEFAULT 1.0"
+            };
+
+            for (String column : newColumns) {
+                try {
+                    conn.prepareStatement("ALTER TABLE " + tablePrefix + "data ADD COLUMN " + column).executeUpdate();
+                } catch (SQLException ignored) {
+                }
             }
 
             conn.prepareStatement("CREATE TABLE IF NOT EXISTS " + tablePrefix + "levels (" +
@@ -72,18 +91,28 @@ public class DatabaseManager {
 
     public void savePlayerSync(PlayerData data) {
         try (Connection conn = dataSource.getConnection()) {
+            
             PreparedStatement psData = conn.prepareStatement(
-                    "REPLACE INTO " + tablePrefix + "data (uuid, nickname, selected_effect, selected_visual) VALUES (?, ?, ?, ?)");
+                    "REPLACE INTO " + tablePrefix + "data (uuid, nickname, selected_effect, selected_visual, " +
+                    "own_effects, other_effects, chat_messages, bossbar, volume) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            
             psData.setString(1, data.getUuid().toString());
-            psData.setString(2, data.getNickname());
+            
+            String nickname = plugin.getServer().getOfflinePlayer(data.getUuid()).getName();
+            psData.setString(2, nickname != null ? nickname : "Unknown");
+            
             psData.setString(3, data.getSelectedEffect());
             psData.setString(4, data.getSelectedVisual());
+            psData.setBoolean(5, data.isOwnEffectsEnabled());
+            psData.setBoolean(6, data.isOtherEffectsEnabled());
+            psData.setBoolean(7, data.isChatMessagesEnabled());
+            psData.setBoolean(8, data.isBossBarEnabled());
+            psData.setFloat(9, data.getVolume());
             psData.executeUpdate();
 
-            // Zapis poziomów mikstur
             PreparedStatement psLevel = conn.prepareStatement(
                     "REPLACE INTO " + tablePrefix + "levels (uuid, effect_key, level) VALUES (?, ?, ?)");
-            for (Map.Entry<String, Integer> entry : data.getEffectLevels().entrySet()) {
+            for (Map.Entry<String, Integer> entry : data.getLevels().entrySet()) {
                 psLevel.setString(1, data.getUuid().toString());
                 psLevel.setString(2, entry.getKey());
                 psLevel.setInt(3, entry.getValue());
@@ -91,7 +120,6 @@ public class DatabaseManager {
             }
             psLevel.executeBatch();
 
-            // Zapis odblokowanych wizualiów
             if (!data.getUnlockedVisuals().isEmpty()) {
                 PreparedStatement psVisual = conn.prepareStatement(
                         "REPLACE INTO " + tablePrefix + "visuals (uuid, visual_key) VALUES (?, ?)");
@@ -110,15 +138,22 @@ public class DatabaseManager {
 
     public void loadPlayerSync(PlayerData data) {
         try (Connection conn = dataSource.getConnection()) {
+            
             PreparedStatement psData = conn.prepareStatement("SELECT * FROM " + tablePrefix + "data WHERE uuid = ?");
             psData.setString(1, data.getUuid().toString());
             ResultSet rsData = psData.executeQuery();
             if (rsData.next()) {
-                data.setNickname(rsData.getString("nickname"));
                 data.setSelectedEffect(rsData.getString("selected_effect"));
                 
                 String selectedVisual = rsData.getString("selected_visual");
                 if (selectedVisual != null) data.setSelectedVisual(selectedVisual);
+                
+                // Wczytywanie nowych ustawień
+                data.setOwnEffectsEnabled(rsData.getBoolean("own_effects"));
+                data.setOtherEffectsEnabled(rsData.getBoolean("other_effects"));
+                data.setChatMessagesEnabled(rsData.getBoolean("chat_messages"));
+                data.setBossBarEnabled(rsData.getBoolean("bossbar"));
+                data.setVolume(rsData.getFloat("volume"));
             }
 
             PreparedStatement psLevel = conn.prepareStatement("SELECT * FROM " + tablePrefix + "levels WHERE uuid = ?");

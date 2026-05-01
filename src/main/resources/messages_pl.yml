@@ -1,0 +1,256 @@
+# f0Effects 1.4.0 - konfiguracyjny plik językowy dla języka polskiego
+
+prefix: "<gradient:#FBE4D6:#261FB3><b>[KillEffects]</b></gradient> <gray>"
+
+messages:
+  no-permission: "<#261FB3>✖ <#FBE4D6>Nie masz uprawnień do tej komendy."
+  effect-selected: "<#FBE4D6>✔ <#261FB3>Aktywowano efekt: <bold>%effect%</bold>"
+  visual-selected: "<#FBE4D6>✔ <#261FB3>Zmieniono efekt wizualny na: <bold>%visual%</bold>"
+  not-enough-money: "<#261FB3>✖ <#FBE4D6>Brak środków. <gray>Potrzebujesz <#FBE4D6>%cost%$"
+  level-up: "<#FBE4D6>⭐ <#261FB3>Zakupiono ulepszenie: <bold>%effect%</bold> <gray>(Poziom <#FBE4D6>%level%</#FBE4D6>)"
+  visual-bought: "<#FBE4D6>✨ <#261FB3>Zakupiono efekt wizualny: <bold>%visual%</bold>"
+  effect-cleared: "%prefix%<#FBE4D6>✔ <green>Pomyślnie</green> <gray>wyłączono aktywny efekt po zabójstwie."
+  player-only: "<#161179>To menu jest tylko dla graczy!"
+  reload-success: "<#FBE4D6>✔ <#261FB3>Plugin został pomyślnie przeładowany!"
+
+  update-available:
+    - "<#0C0950><strikethrough>========================================</strikethrough>"
+    - "%prefix%<#FBE4D6>Dostępna jest nowa wersja pluginu!"
+    - ""
+    - "<gray>Obecna wersja: <#FBE4D6>%current%"
+    - "<gray>Nowa wersja: <#FBE4D6>%latest%"
+    - ""
+    - "<gray>Pobierz tutaj: <#261FB3>%link%"
+    - "<#0C0950><strikethrough>========================================</strikethrough>"
+
+  about-command:
+    - "<#0C0950><strikethrough>----------------------------------------</strikethrough>"
+    - "<gradient:#FBE4D6:#261FB3><b>f0Effects</b></gradient> <gray>- Informacje"
+    - ""
+    - "<gray>Wersja: <#FBE4D6>%version_color%%version%"
+    - "<gray>Silnik: <white>%server_type%</white> <dark_gray>(<gray>%server_version%</gray>)</dark_gray>"
+    - "<gray>Wykryte hooki: <#FBE4D6>%hooks%"
+    - "<gray>Update Checker: <#FBE4D6>%update_checker%"
+    - "<gray>Baza danych: %database_status_color%%database_status% <dark_gray>(<gray>%database_type%</gray>)</dark_gray>"
+    - "<gray>Załadowane efekty: <#FBE4D6>%effects_number%"
+    - "<gray>Załadowane wizualia: <#FBE4D6>%effects_visual_number%"
+    - "<#0C0950><strikethrough>----------------------------------------</strikethrough>"
+
+bossbar:
+  title: "<gradient:#FBE4D6:#261FB3><b>AKTYWNY EFEKT: %effect%</b></gradient> <dark_gray>(<#FBE4D6>Lvl %level%</#FBE4D6>)"
+
+gui:
+  main:
+    title: "<gradient:#0C0950:#261FB3><b>✦ WYBIERZ EFEKT ✦</b></gradient>"
+    info-book:
+      name: "<#FBE4D6>📘 <b>O co chodzi?</b>"
+      lore:
+        - "<gray>Wybierz bonus, który aktywuje"
+        - "<gray>się po każdym zabójstwie."
+    clear-item:
+      name: "<gradient:#FBE4D6:#261FB3><b>🥛 <b>Wyczyść Efekty</b></gradient>"
+      lore:
+        - "<gray>Usuwa obecny bonus,"
+        - "<gray>który dostajesz po zabójstwie."
+        - ""
+        - "<#261FB3>▸ Kliknij, aby usunąć efekt"
+    settings-item:
+      name: "<gradient:#FBE4D6:#261FB3><b>⚙ USTAWIENIA</b></gradient>"
+      lore:
+        - "<gray>Zarządzaj głośnością, powiadomieniami"
+        - "<gray>oraz wydajnością efektów."
+        - ""
+        - "<#261FB3>▸ Kliknij, aby otworzyć"
+    upgrade-item:
+      name: "<gradient:#FBE4D6:#261FB3><b>⭐ <b>ULEPSZENIA</b></gradient>"
+      lore:
+        - "<gray>Większa moc, ale krótszy czas."
+        - ""
+        - "<#261FB3>▸ Kliknij, aby otworzyć"
+    visuals-item:
+      name: "<gradient:#FBE4D6:#261FB3><b>👁 <b>KOSMETYKI WIZUALNE</b></gradient>"
+      lore:
+        - "<gray>Zmień wygląd swojej animacji killa."
+        - ""
+        - "<#261FB3>▸ Kliknij, aby otworzyć"
+    close-item:
+      name: "<#261FB3>✖ <b>Zamknij</b>"
+
+  upgrade:
+    title: "<gradient:#0C0950:#261FB3><b>⭐ SKLEP ULEPSZEŃ</b></gradient>"
+    format:
+      duration: "<gray>⏳ Czas: <#FBE4D6>%duration%s"
+      cost: "<gray>💲 Cena: <#FBE4D6>%cost%$"
+      unlocked: "<#FBE4D6>✔ Już to posiadasz"
+      can-buy: "<#261FB3>➤ Kliknij, aby kupić"
+      locked: "<#161179>✖ Kup najpierw poziom %required_level%"
+    info-book:
+      name: "<#FBE4D6>📘 <b>System ulepszeń</b>"
+      lore:
+        - "<gray>Ulepszaj efekty, by zyskać"
+        - "<gray>wyższy poziom wzmocnienia."
+    back-item:
+      name: "<#FBE4D6>↩ <b>Powrót</b>"
+    close-item:
+      name: "<#261FB3>✖ <b>Zamknij</b>"
+
+  visuals:
+    title: "<gradient:#0C0950:#261FB3><b>👁 WYBÓR ANIMACJI</b></gradient>"
+    format:
+      unlocked: "<#FBE4D6>✔ Odblokowano"
+      selected: "<#261FB3>⭐ Obecnie wybrano"
+      click-to-select: "<#FBE4D6>▸ Kliknij, aby wybrać"
+      cost: "<gray>Cena: <#FBE4D6>%cost%$"
+      click-to-buy: "<#FBE4D6>▸ Kliknij, aby kupić"
+    back-item:
+      name: "<#FBE4D6>↩ <b>Powrót do Menu</b>"
+    close-item:
+      name: "<#261FB3>✖ <b>Zamknij</b>"
+
+  settings:
+    title: "<gradient:#FBE4D6:#261FB3><b>⚙ USTAWIENIA GRACZA</b></gradient>"
+    back-item:
+      name: "<#FBE4D6>↩ <b>Powrót do Menu</b>"
+    close-item:
+      name: "<#261FB3>✖ <b>Zamknij</b>"
+
+    status-on: "<gradient:#FBE4D6:#261FB3>Włączone</gradient>"
+    status-off: "<gradient:#161179:#0C0950>Wyłączone</gradient>"
+
+    own-effects:
+      name: "<#FBE4D6>✨ <b>Twoje Efekty</b>"
+      lore:
+        - "<gray>Widoczność animacji po TWOIM zabójstwie."
+        - ""
+        - "<gray>Obecnie: %status%"
+        - ""
+        - "<#FBE4D6>▸ Kliknij, aby przełączyć"
+    other-effects:
+      name: "<#FBE4D6>👥 <b>Efekty Innych</b>"
+      lore:
+        - "<gray>Widoczność animacji innych graczy."
+        - "<gray>(Wyłącz to, jeśli masz lagi)."
+        - ""
+        - "<gray>Obecnie: %status%"
+        - ""
+        - "<#FBE4D6>▸ Kliknij, aby przełączyć"
+    chat-messages:
+      name: "<#FBE4D6>✉ <b>Wiadomości</b>"
+      lore:
+        - "<gray>Komunikaty na czacie po aktywacji."
+        - ""
+        - "<gray>Obecnie: %status%"
+        - ""
+        - "<#FBE4D6>▸ Kliknij, aby przełączyć"
+    bossbar:
+      name: "<#FBE4D6>📊 <b>Pasek BossBar</b>"
+      lore:
+        - "<gray>Wyświetla pasek z Twoim aktywnym"
+        - "<gray>efektem u góry ekranu."
+        - ""
+        - "<gray>Obecnie: %status%"
+        - ""
+        - "<#FBE4D6>▸ Kliknij, aby przełączyć"
+
+    volume-title:
+      name: "<#FBE4D6>🔊 <b>Głośność: %percent%%</b>"
+      lore:
+        - "<gray>Natężenie dźwięku Twoich efektów."
+    volume-segment:
+      selected: "<#FBE4D6>● <gray>Wybrano ten poziom"
+      not-selected: "<dark_gray>○ <gray>Kliknij, aby wybrać"
+
+effects:
+  SPEED:
+    name: "<#FBE4D6>⚡ <b>SPEED</b>"
+    lore:
+      - "<gray>Zyskujesz ogromną prędkość"
+      - "<gray>poruszania się po zabójstwie."
+      - ""
+      - "<#FBE4D6>▸ Odblokowany poziom: <bold>%level%</bold>"
+      - ""
+      - "<#261FB3>➤ Kliknij, aby wybrać"
+
+  RESISTANCE:
+    name: "<#FBE4D6>🛡 <b>RESISTANCE</b>"
+    lore:
+      - "<gray>Otrzymujesz znacznie mniejsze"
+      - "<gray>obrażenia po zabójstwie."
+      - ""
+      - "<#FBE4D6>▸ Odblokowany poziom: <bold>%level%</bold>"
+      - ""
+      - "<#261FB3>➤ Kliknij, aby wybrać"
+
+  REGENERATION:
+    name: "<#FBE4D6>❤ <b>REGENERATION</b>"
+    lore:
+      - "<gray>Twoje zdrowie odnawia się"
+      - "<gray>błyskawicznie po zabójstwie."
+      - ""
+      - "<#FBE4D6>▸ Odblokowany poziom: <bold>%level%</bold>"
+      - ""
+      - "<#261FB3>➤ Kliknij, aby wybrać"
+
+  STRENGTH:
+    name: "<#FBE4D6>⚔ <b>STRENGTH</b>"
+    lore:
+      - "<gray>Zadajesz drastycznie większe"
+      - "<gray>obrażenia po zabójstwie."
+      - ""
+      - "<#FBE4D6>▸ Odblokowany poziom: <bold>%level%</bold>"
+      - ""
+      - "<#261FB3>➤ Kliknij, aby wybrać"
+
+visual-effects:
+  LIGHTNING:
+    name: "<#FBE4D6>⚡ Piorun"
+
+  FIREWORK:
+    name: "<#FBE4D6>🎆 Fajerwerki"
+
+  ELDER_GUARDIAN:
+    name: "<#FBE4D6>👻 Klątwa Ducha"
+
+  HEARTS:
+    name: "<#FBE4D6>❤ Miłosny Kill"
+
+  FLAMES:
+    name: "<#FBE4D6>🔥 Piekielny"
+
+  CLOUD:
+    name: "<#FBE4D6>☁ Anielski"
+
+  MAGIC:
+    name: "<#FBE4D6>✨ Magiczny"
+
+  SONIC:
+    name: "<#FBE4D6>🔊 Sonic Boom"
+
+  TOTEM:
+    name: "<#FBE4D6>🌟 Niesmiertelność"
+
+  SOUL:
+    name: "<#FBE4D6>💀 Żniwiarz Dusz"
+
+  BLOOD:
+    name: "<#FBE4D6>🩸 Krwawa Łaźnia"
+
+  ENDER:
+    name: "<#FBE4D6>🌌 Wędrowiec Pustki"
+
+  VILLAGER:
+    name: "<#FBE4D6>✳ Szczęśliwy Kill"
+
+  EXPLOSION:
+    name: "<#FBE4D6>💣 Kaboom"
+
+  DRAGON:
+    name: "<#FBE4D6>🐲 Oddech Smoka"
+
+placeholders:
+  none-selected: "<#161179>---"
+  boolean-true: "<#FBE4D6>Włączone"
+  boolean-false: "<#161179>Wyłączone"
+  max-level: "<#FBE4D6>MAX"
+  format: "%effect_name% <dark_gray>(<#FBE4D6>Lvl %level%</#FBE4D6>)"
+  duration-format: "%seconds%s"

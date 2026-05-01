@@ -1,16 +1,42 @@
 package me.f0rant.f0effects.utils;
-
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.ChatColor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ColorUtil {
-    private static final Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
 
-    public static String color(String message) {
-        if (message == null) return null;
-        Matcher matcher = HEX_PATTERN.matcher(message);
+    private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
+    
+    private static final LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.builder()
+            .character('§')
+            .hexColors()
+            .useUnusualXRepeatedCharacterHexFormat()
+            .build();
+
+    public static String color(String text) {
+        if (text == null || text.isEmpty()) return "";
+
+        if (text.contains("<") && text.contains(">")) {
+            try {
+                Component component = MINI_MESSAGE.deserialize(text);
+                text = LEGACY_SERIALIZER.serialize(component);
+            } catch (Exception ignored) {
+            }
+        }
+
+        text = translateHexColorCodes("&#", "", text);
+
+        return ChatColor.translateAlternateColorCodes('&', text);
+    }
+
+    private static String translateHexColorCodes(String startTag, String endTag, String message) {
+        final Pattern hexPattern = Pattern.compile(startTag + "([A-Fa-f0-9]{6})" + endTag);
+        Matcher matcher = hexPattern.matcher(message);
         StringBuffer buffer = new StringBuffer(message.length() + 4 * 8);
+        
         while (matcher.find()) {
             String group = matcher.group(1);
             matcher.appendReplacement(buffer, ChatColor.COLOR_CHAR + "x"
@@ -19,6 +45,6 @@ public class ColorUtil {
                     + ChatColor.COLOR_CHAR + group.charAt(4) + ChatColor.COLOR_CHAR + group.charAt(5)
             );
         }
-        return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
+        return matcher.appendTail(buffer).toString();
     }
 }

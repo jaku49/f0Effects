@@ -1,15 +1,11 @@
 package me.f0rant.f0effects.listener;
-
 import me.f0rant.f0effects.f0Effects;
-import me.f0rant.f0effects.model.PlayerData;
-import me.f0rant.f0effects.utils.ColorUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import java.util.UUID;
+import java.util.List;
 
 public class PlayerJoinQuitListener implements Listener {
 
@@ -20,50 +16,40 @@ public class PlayerJoinQuitListener implements Listener {
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
+    public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        UUID uuid = player.getUniqueId();
 
-        PlayerData data = plugin.getEffectManager().getPlayerData(uuid);
-        data.setNickname(player.getName());
+        if (player.hasPermission("f0effects.admin") && plugin.getUpdateChecker() != null) {
+            if (plugin.getUpdateChecker().isUpdateAvailable()) {
+                
+                List<String> updateMessage = plugin.getLanguageManager().getLore("messages.update-available");
+                
+                String current = plugin.getDescription().getVersion();
+                String latest = plugin.getUpdateChecker().getLatestVersion();
+                String link = plugin.getUpdateChecker().getDownloadUrl();
+                if (link == null) link = "https://github.com/jaku49/f0Effects";
 
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            plugin.getDatabaseManager().loadPlayerSync(data);
-        });
-
-        if (player.hasPermission("f0effects.admin")
-                && plugin.getUpdateChecker() != null
-                && plugin.getUpdateChecker().hasChecked()
-                && plugin.getUpdateChecker().isUpdateAvailable()) {
-
-            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                String versionMsg = plugin.getConfig().getString("messages.update-available")
-                        .replace("%latest%", plugin.getUpdateChecker().getLatestVersion())
-                        .replace("%current%", plugin.getDescription().getVersion());
-
-                player.sendMessage(ColorUtil.color(versionMsg));
-
-                String downloadUrl = plugin.getUpdateChecker().getDownloadUrl();
-                if (downloadUrl != null && !downloadUrl.isBlank()) {
-                    String linkMsg = plugin.getConfig().getString("messages.update-link")
-                            .replace("%url%", downloadUrl);
-                    player.sendMessage(ColorUtil.color(linkMsg));
+                for (String line : updateMessage) {
+                    player.sendMessage(line.replace("%current%", current)
+                                           .replace("%latest%", latest)
+                                           .replace("%link%", link));
                 }
-            }, 40L);
+            }
         }
     }
 
     @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
+    public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        UUID uuid = player.getUniqueId();
-
-        plugin.getBossBarManager().removeBossBar(player);
-
-        PlayerData data = plugin.getEffectManager().getPlayerData(uuid);
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            plugin.getDatabaseManager().savePlayerSync(data);
-        });
-        plugin.getEffectManager().unloadPlayer(uuid);
+        if (plugin.getEffectManager() != null && plugin.getDatabaseManager() != null) {
+            plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    me.f0rant.f0effects.model.PlayerData data = plugin.getEffectManager().getPlayerData(player.getUniqueId());
+                    plugin.getDatabaseManager().savePlayerSync(data);
+                    
+                }
+            });
+        }
     }
 }

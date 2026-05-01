@@ -1,5 +1,4 @@
 package me.f0rant.f0effects.manager;
-
 import me.f0rant.f0effects.f0Effects;
 import me.f0rant.f0effects.model.PlayerData;
 import java.util.HashMap;

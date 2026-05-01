@@ -1,15 +1,15 @@
 package me.f0rant.f0effects.command;
-
 import me.f0rant.f0effects.f0Effects;
-import me.f0rant.f0effects.model.PlayerData;
 import me.f0rant.f0effects.utils.ColorUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainCommand implements CommandExecutor {
+
     private final f0Effects plugin;
 
     public MainCommand(f0Effects plugin) {
@@ -18,26 +18,22 @@ public class MainCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        
         if (args.length == 0) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage("This menu can only be used by players!");
+                sender.sendMessage(plugin.getLanguageManager().getMsg("messages.player-only"));
                 return true;
             }
             Player player = (Player) sender;
-
             if (!player.hasPermission("f0effects.use")) {
-                player.sendMessage(ColorUtil.color(plugin.getConfig().getString("messages.no-permission")));
+                player.sendMessage(plugin.getLanguageManager().getMsg("messages.no-permission"));
                 return true;
             }
-
-
             plugin.getEffectGUI().open(player);
             return true;
         }
 
         if (!sender.hasPermission("f0effects.admin")) {
-            sender.sendMessage(ColorUtil.color(plugin.getConfig().getString("messages.no-permission")));
+            sender.sendMessage(plugin.getLanguageManager().getMsg("messages.no-permission"));
             return true;
         }
 
@@ -45,58 +41,59 @@ public class MainCommand implements CommandExecutor {
 
         if (action.equals("reload")) {
             plugin.reloadConfig();
-            sender.sendMessage(ColorUtil.color("&#00FFCC✔ &aSucccesfully reloaded config!"));
+            plugin.getLanguageManager().loadLanguage();
+            sender.sendMessage(plugin.getLanguageManager().getMsg("messages.reload-success"));
+            return true;
+        }
+
+        if (action.equals("about")) {
+            List<String> aboutLines = plugin.getLanguageManager().getLore("messages.about-command");
+            
+            String version = plugin.getDescription().getVersion();
+            String versionColor = (plugin.getUpdateChecker() != null && plugin.getUpdateChecker().isUpdateAvailable()) ? "&c" : "&a";
+            String serverType = plugin.getServer().getName();
+            String serverVersion = plugin.getServer().getBukkitVersion();
+
+            List<String> hooksList = new ArrayList<>();
+            if (plugin.getServer().getPluginManager().getPlugin("Vault") != null) hooksList.add("Vault");
+            if (plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) hooksList.add("PlaceholderAPI");
+            String hooks = hooksList.isEmpty() ? "Brak" : String.join(", ", hooksList);
+
+            boolean ucEnabled = plugin.getConfig().getBoolean("update-checker.enabled");
+            String updateChecker = ucEnabled ? "Enabled" : "Disabled";
+
+            boolean dbStatus = plugin.getDatabaseManager() != null;
+            String dbStatusStr = dbStatus ? "Connected" : "Error";
+            String dbStatusColor = dbStatus ? "&a" : "&c";
+            String dbType = plugin.getConfig().getString("storage-type", "SQLITE");
+
+            int effectsNum = plugin.getConfig().getConfigurationSection("effects") != null ? 
+                    plugin.getConfig().getConfigurationSection("effects").getKeys(false).size() : 0;
+            int visualsNum = plugin.getConfig().getConfigurationSection("visual-effects") != null ? 
+                    plugin.getConfig().getConfigurationSection("visual-effects").getKeys(false).size() : 0;
+
+            for (String line : aboutLines) {
+                line = line.replace("%version%", version)
+                           .replace("%version_color%", versionColor)
+                           .replace("%server_type%", serverType)
+                           .replace("%server_version%", serverVersion)
+                           .replace("%hooks%", hooks)
+                           .replace("%update_checker%", updateChecker)
+                           .replace("%database_status%", dbStatusStr)
+                           .replace("%database_status_color%", dbStatusColor)
+                           .replace("%database_type%", dbType)
+                           .replace("%effects_number%", String.valueOf(effectsNum))
+                           .replace("%effects_visual_number%", String.valueOf(visualsNum));
+                sender.sendMessage(ColorUtil.color(line));
+            }
             return true;
         }
 
         if (args.length < 3) {
-            sender.sendMessage(ColorUtil.color("&#ffaa00Usage: /" + label + " <set|clear|reload> <player> <effect> [level]"));
+            sender.sendMessage(ColorUtil.color("&cUsage: /" + label + " <set|clear|reload|about> <player> <effect> [level]"));
             return true;
         }
-
-        Player target = Bukkit.getPlayer(args[1]);
-        if (target == null) {
-            sender.sendMessage(ColorUtil.color("&#ff0000Player not found: " + args[1] + "!"));
-            return true;
-        }
-
-        String effect = args[2].toUpperCase();
-        if (!plugin.getConfig().contains("effects." + effect)) {
-            sender.sendMessage(ColorUtil.color("&#ff0000Unknown effect! Available: SPEED, RESISTANCE, REGENERATION, STRENGTH"));
-            return true;
-        }
-
-        PlayerData data = plugin.getEffectManager().getPlayerData(target.getUniqueId());
-
-        if (action.equals("set")) {
-            if (args.length < 4) {
-                sender.sendMessage(ColorUtil.color("&#ff0000Provide level to set (0-3)!"));
-                return true;
-            }
-            try {
-                int level = Integer.parseInt(args[3]);
-                if (level < 0 || level > 3) {
-                    sender.sendMessage(ColorUtil.color("&#ff0000Level must be in range 0-3!"));
-                    return true;
-                }
-                data.setLevel(effect, level);
-                sender.sendMessage(ColorUtil.color("&#00ff00Successfully set level &e" + level + " &afor effect &e" + effect + " &afor player &e" + target.getName()));
-            } catch (NumberFormatException e) {
-                sender.sendMessage(ColorUtil.color("&#ff0000Provided level is not a number!"));
-                return true;
-            }
-        } else if (action.equals("clear")) {
-            data.setLevel(effect, 0);
-            sender.sendMessage(ColorUtil.color("&#00ff00Successfully cleared effect &e" + effect + " &afor player &e" + target.getName()));
-        } else {
-            sender.sendMessage(ColorUtil.color("&#ffaa00Usage: /" + label + " <set|clear|reload> <player> <effect> [level]"));
-            return true;
-        }
-
-        // Zapis do bazy danych w tle
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            plugin.getDatabaseManager().savePlayerSync(data);
-        });
+        
 
         return true;
     }

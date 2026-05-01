@@ -1,5 +1,4 @@
 package me.f0rant.f0effects.update;
-
 import me.f0rant.f0effects.f0Effects;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -24,7 +23,7 @@ public class UpdateChecker {
     public void check() {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             try {
-                plugin.getLogger().info("[f0Effects] Starting update check... Fetching version info from: " + versionURL);
+                plugin.getLogger().info("Starting update check... Fetching version info from: " + versionURL);
                 
                 String noCacheUrl = versionURL + "?t=" + System.currentTimeMillis();
                 HttpURLConnection connection = (HttpURLConnection) new URL(noCacheUrl).openConnection();
@@ -36,12 +35,12 @@ public class UpdateChecker {
 
                     String line = reader.readLine();
                     if (line == null || line.isBlank()) {
-                        plugin.getLogger().warning("[f0Effects] Update file on GitHub is empty!");
+                        plugin.getLogger().warning("Update file on GitHub is empty!");
                         checked = true;
                         return;
                     }
 
-                    plugin.getLogger().info("[f0Effects] Read line from GitHub: " + line);
+                    plugin.getLogger().info("Read line from GitHub: " + line);
 
                     String[] parts = line.split("\\|");
                     latestVersion = parts[0].trim();
@@ -52,19 +51,19 @@ public class UpdateChecker {
 
                 String currentVersion = plugin.getDescription().getVersion().trim();
                 
-                plugin.getLogger().info("[f0Effects] Latest version from GitHub: '" + latestVersion + "'");
-                plugin.getLogger().info("[f0Effects] Installed version (plugin.yml): '" + currentVersion + "'");
+                plugin.getLogger().info("Latest version from GitHub: '" + latestVersion + "'");
+                plugin.getLogger().info("Installed version (plugin.yml): '" + currentVersion + "'");
 
                 if (isNewerVersion(currentVersion, latestVersion)) {
                     updateAvailable = true;
-                    plugin.getLogger().info("[f0Effects] RESULT: A newer version is available!");
+                    plugin.getLogger().info("RESULT: A newer version is available!");
                 } else {
-                    plugin.getLogger().info("[f0Effects] RESULT: Plugin is up to date. No update available.");
+                    plugin.getLogger().info("RESULT: Plugin is up to date. No update available.");
                 }
                 
                 checked = true;
             } catch (Exception e) {
-                plugin.getLogger().warning("[f0Effects] ERROR while checking for updates: " + e.getMessage());
+                plugin.getLogger().warning("ERROR while checking for updates: " + e.getMessage());
                 checked = true;
             }
         });
@@ -84,7 +83,7 @@ public class UpdateChecker {
                 if (latestPart < currentPart) return false;
             }
         } catch (Exception e) {
-            plugin.getLogger().warning("[f0Effects] ERROR while comparing versions: " + e.getMessage());
+            plugin.getLogger().warning("ERROR while comparing versions: " + e.getMessage());
         }
         return false;
     }

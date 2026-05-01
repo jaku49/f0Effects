@@ -1,5 +1,4 @@
 package me.f0rant.f0effects.gui;
-
 import me.f0rant.f0effects.f0Effects;
 import me.f0rant.f0effects.model.PlayerData;
 import me.f0rant.f0effects.utils.ColorUtil;
@@ -24,7 +23,7 @@ public class UpgradeGUI {
 
     public void open(Player player) {
         int size = plugin.getConfig().getInt("gui.upgrade.size", 54);
-        String title = ColorUtil.color(plugin.getConfig().getString("gui.upgrade.title"));
+        String title = plugin.getLanguageManager().getMsg("gui.upgrade.title");
         Inventory inv = Bukkit.createInventory(null, size, title);
 
         PlayerData data = plugin.getEffectManager().getPlayerData(player.getUniqueId());
@@ -44,7 +43,7 @@ public class UpgradeGUI {
                 mat = Material.valueOf(plugin.getConfig().getString("effects." + key + ".material", "STONE").toUpperCase());
             } catch (Exception e) { mat = Material.STONE; }
 
-            String name = plugin.getConfig().getString("effects." + key + ".name");
+            String name = plugin.getLanguageManager().getMsg("effects." + key + ".name");
             List<Integer> slots = plugin.getConfig().getIntegerList("effects." + key + ".upgrade-slots");
             int currentLevel = data.getLevel(key);
 
@@ -55,26 +54,25 @@ public class UpgradeGUI {
                 item.setAmount(level); 
                 
                 ItemMeta meta = item.getItemMeta();
-                if (level > 1) meta.setMaxStackSize(99); 
+                if (level > 1) meta.setMaxStackSize(99);
                 
-                meta.setDisplayName(ColorUtil.color(name + " &8- &eLevel " + level));
+                meta.setDisplayName(name + ColorUtil.color(" &8- &eLevel " + level));
                 int cost = plugin.getConfig().getInt("effects." + key + ".levels." + level + ".cost");
-                int durationTicks = plugin.getConfig().getInt("effects." + key + ".levels." + level + ".duration");
-                int durationSeconds = durationTicks / 20;
+                int durationSeconds = plugin.getConfig().getInt("effects." + key + ".levels." + level + ".duration") / 20;
 
                 List<String> lore = new ArrayList<>();
-                lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.duration", "&7Duration: %duration%s").replace("%duration%", String.valueOf(durationSeconds))));
-                lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.cost", "&7Cost: %cost%$").replace("%cost%", String.valueOf(cost))));
+                lore.add(plugin.getLanguageManager().getMsg("gui.upgrade.format.duration").replace("%duration%", String.valueOf(durationSeconds)));
+                lore.add(plugin.getLanguageManager().getMsg("gui.upgrade.format.cost").replace("%cost%", String.valueOf(cost)));
                 lore.add("");
 
                 if (currentLevel >= level) {
-                    lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.unlocked", "&aUnlocked")));
+                    lore.add(plugin.getLanguageManager().getMsg("gui.upgrade.format.unlocked"));
                     meta.addEnchant(Enchantment.UNBREAKING, 1, true);
                     meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                 } else if (currentLevel == level - 1) {
-                    lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.can-buy", "&eClick to buy")));
+                    lore.add(plugin.getLanguageManager().getMsg("gui.upgrade.format.can-buy"));
                 } else {
-                    lore.add(ColorUtil.color(plugin.getConfig().getString("gui.upgrade.format.locked", "&cLocked").replace("%required_level%", String.valueOf(level - 1))));
+                    lore.add(plugin.getLanguageManager().getMsg("gui.upgrade.format.locked").replace("%required_level%", String.valueOf(level - 1)));
                 }
 
                 meta.setLore(lore);
@@ -93,7 +91,7 @@ public class UpgradeGUI {
     }
 
     private void setCustomItem(Inventory inv, String path) {
-        if (!plugin.getConfig().contains(path)) return; 
+        if (!plugin.getConfig().contains(path)) return;
         
         Material mat;
         try {
@@ -102,18 +100,14 @@ public class UpgradeGUI {
         
         ItemStack item = new ItemStack(mat);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(ColorUtil.color(plugin.getConfig().getString(path + ".name", "Item")));
-
-        if (plugin.getConfig().contains(path + ".lore")) {
-            List<String> lore = new ArrayList<>();
-            for (String s : plugin.getConfig().getStringList(path + ".lore")) {
-                lore.add(ColorUtil.color(s));
-            }
-            meta.setLore(lore);
+        if (meta != null) {
+            meta.setDisplayName(plugin.getLanguageManager().getMsg(path + ".name"));
+            List<String> lore = plugin.getLanguageManager().getLore(path + ".lore");
+            if (!lore.isEmpty()) meta.setLore(lore);
+            
+            meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_ATTRIBUTES);
+            item.setItemMeta(meta);
         }
-        
-        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_ATTRIBUTES);
-        item.setItemMeta(meta);
         inv.setItem(plugin.getConfig().getInt(path + ".slot"), item);
     }
 }
