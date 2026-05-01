@@ -151,6 +151,7 @@ Players can change their settings in a dedicated GUI.
 <p align="center">
   <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/140sm.png" width="800" alt="Visual Selection GUI"/>
 </p>
+
 ---
 
 ## 🛡 Combat Effects & Meta
@@ -193,7 +194,7 @@ When an effect is triggered, an elegant BossBar appears at the top of the screen
 - [x] Full MySQL / SQLite support
 - [x] MiniMessage & HEX support
 - [x] Advanced Settings GUI
-- [x] Multi-language support (English, Polish)
+- [x] Multi-language support (English, Polish, German)
 - [x] Visual effects system
 - [x] Admin `set`, `about` and `clear` command system
 - [x] Particle customization
@@ -204,7 +205,6 @@ When an effect is triggered, an elegant BossBar appears at the top of the screen
 - [ ] Effect cooldown system
 - [ ] Custom kill messages (ActionBars)
 - [ ] Per-arena configuration
-- [x] Add support for German and Polish
 
 ---
 
