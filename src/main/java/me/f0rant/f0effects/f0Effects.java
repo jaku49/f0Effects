@@ -14,6 +14,7 @@ import me.f0rant.f0effects.manager.EffectManager;
 import me.f0rant.f0effects.manager.LanguageManager;
 import me.f0rant.f0effects.model.PlayerData;
 import me.f0rant.f0effects.update.UpdateChecker;
+import me.f0rant.f0effects.utils.EffectsExpansion;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -51,13 +52,11 @@ public final class f0Effects extends JavaPlugin {
         this.effectManager = new EffectManager(this);
         this.bossBarManager = new BossBarManager(this);
 
-        // GUI
         this.effectGUI = new EffectGUI(this);
         this.upgradeGUI = new UpgradeGUI(this);
         this.visualEffectGUI = new VisualEffectGUI(this);
         this.settingsGUI = new SettingsGUI(this);
 
-        // Zdarzenia
         getServer().getPluginManager().registerEvents(new InventoryClickListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinQuitListener(this), this);
@@ -65,6 +64,10 @@ public final class f0Effects extends JavaPlugin {
         if (getCommand("f0effects") != null) {
             getCommand("f0effects").setExecutor(new MainCommand(this));
             getCommand("f0effects").setTabCompleter(new MainCommandCompleter(this));
+        }
+
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new EffectsExpansion(this).register();
         }
 
         if (getConfig().getBoolean("update-checker.enabled", true)) {

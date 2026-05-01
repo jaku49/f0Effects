@@ -42,19 +42,24 @@ public class EffectsExpansion extends PlaceholderExpansion {
         String selected = data.getSelectedEffect();
         String selectedVisual = data.getSelectedVisual();
 
+        // Pobieranie zwrotów i natychmiastowe ich kolorowanie pod kątem kompatybilności z TAB
         String noneSelected = plugin.getLanguageManager().getMsg("placeholders.none-selected");
         String trueFormat = plugin.getLanguageManager().getMsg("placeholders.boolean-true");
         String falseFormat = plugin.getLanguageManager().getMsg("placeholders.boolean-false");
         String maxFormat = plugin.getLanguageManager().getMsg("placeholders.max-level");
 
+        if (params.equalsIgnoreCase("test")) {
+            return ColorUtil.color("&aF0Effects dziala!");
+        }
+
         if (params.equalsIgnoreCase("selected")) {
-            if (selected == null || selected.equals("NONE")) return noneSelected;
-            return plugin.getLanguageManager().getMsg("effects." + selected + ".name");
+            if (selected == null || selected.equals("NONE")) return ColorUtil.color(noneSelected);
+            return ColorUtil.color(plugin.getLanguageManager().getMsg("effects." + selected + ".name"));
         }
 
         if (params.equalsIgnoreCase("selected_visual")) {
-            if (selectedVisual == null || selectedVisual.equals("NONE")) return noneSelected;
-            return plugin.getLanguageManager().getMsg("visual-effects." + selectedVisual + ".name");
+            if (selectedVisual == null || selectedVisual.equals("NONE")) return ColorUtil.color(noneSelected);
+            return ColorUtil.color(plugin.getLanguageManager().getMsg("visual-effects." + selectedVisual + ".name"));
         }
 
         if (params.equalsIgnoreCase("unlocked_visuals_count")) {
@@ -67,13 +72,13 @@ public class EffectsExpansion extends PlaceholderExpansion {
         }
 
         if (params.equalsIgnoreCase("selected_format")) {
-            if (selected == null || selected.equals("NONE")) return noneSelected;
+            if (selected == null || selected.equals("NONE")) return ColorUtil.color(noneSelected);
             
             String name = plugin.getLanguageManager().getMsg("effects." + selected + ".name");
             int lvl = data.getLevel(selected);
             String format = plugin.getLanguageManager().getMsg("placeholders.format");
             
-            return format.replace("%effect_name%", name).replace("%level%", String.valueOf(lvl));
+            return ColorUtil.color(format.replace("%effect_name%", name).replace("%level%", String.valueOf(lvl)));
         }
 
         if (params.equalsIgnoreCase("selected_duration")) {
@@ -86,7 +91,7 @@ public class EffectsExpansion extends PlaceholderExpansion {
             int seconds = durationTicks / 20;
             String format = plugin.getLanguageManager().getMsg("placeholders.duration-format");
             
-            return format.replace("%seconds%", String.valueOf(seconds));
+            return ColorUtil.color(format.replace("%seconds%", String.valueOf(seconds)));
         }
 
         if (params.toLowerCase().startsWith("level_")) {
@@ -96,10 +101,10 @@ public class EffectsExpansion extends PlaceholderExpansion {
 
         if (params.toLowerCase().startsWith("next_cost_")) {
             String effectName = params.substring(10).toUpperCase();
-            if (!plugin.getConfig().contains("effects." + effectName)) return noneSelected;
+            if (!plugin.getConfig().contains("effects." + effectName)) return ColorUtil.color(noneSelected);
             
             int currentLvl = data.getLevel(effectName);
-            if (currentLvl >= 3) return maxFormat;
+            if (currentLvl >= 3) return ColorUtil.color(maxFormat);
             
             int cost = plugin.getConfig().getInt("effects." + effectName + ".levels." + (currentLvl + 1) + ".cost", 0);
             return String.valueOf(cost);
@@ -108,26 +113,26 @@ public class EffectsExpansion extends PlaceholderExpansion {
         if (params.toLowerCase().startsWith("is_max_")) {
             String effectName = params.substring(7).toUpperCase();
             int currentLvl = data.getLevel(effectName);
-            return currentLvl >= 3 ? trueFormat : falseFormat;
+            return ColorUtil.color(currentLvl >= 3 ? trueFormat : falseFormat);
         }
 
         if (params.equalsIgnoreCase("setting_own_effects")) {
-            return data.isOwnEffectsEnabled() ? trueFormat : falseFormat;
+            return ColorUtil.color(data.isOwnEffectsEnabled() ? trueFormat : falseFormat);
         }
         if (params.equalsIgnoreCase("setting_other_effects")) {
-            return data.isOtherEffectsEnabled() ? trueFormat : falseFormat;
+            return ColorUtil.color(data.isOtherEffectsEnabled() ? trueFormat : falseFormat);
         }
         if (params.equalsIgnoreCase("setting_chat")) {
-            return data.isChatMessagesEnabled() ? trueFormat : falseFormat;
+            return ColorUtil.color(data.isChatMessagesEnabled() ? trueFormat : falseFormat);
         }
         if (params.equalsIgnoreCase("setting_bossbar")) {
-            return data.isBossBarEnabled() ? trueFormat : falseFormat;
+            return ColorUtil.color(data.isBossBarEnabled() ? trueFormat : falseFormat);
         }
         
         if (params.equalsIgnoreCase("setting_volume")) {
             return (int) (data.getVolume() * 100) + "%";
         }
 
-        return "---";
+        return null; 
     }
 }
