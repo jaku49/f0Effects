@@ -195,7 +195,7 @@ When an effect is triggered, an elegant BossBar appears at the top of the screen
 - [x] Advanced Settings GUI
 - [x] Multi-language support (English, Polish)
 - [x] Visual effects system
-- [x] Admin `set` and `clear` command system
+- [x] Admin `set`, `about` and `clear` command system
 - [x] Particle customization
 - [x] Settings menu
 - [x] Transfer remaining messages to config
