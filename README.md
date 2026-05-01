@@ -3,14 +3,14 @@
 <p align="center">
   <b>Advanced Kill Effect & Visuals System for Competitive Minecraft</b>
   <br>
-  <i>Version 1.3.1 - Built for Performance and Style</i>
+  <i>Version 1.4.0 - Built for Performance and Style</i>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Minecraft-1.19+-blue.svg">
   <img src="https://img.shields.io/badge/Platform-Spigot%20%7C%20Paper-blue">
   <img src="https://img.shields.io/badge/Storage-MySQL%20%7C%20SQLite-blue">
-  <img src="https://img.shields.io/badge/Colors-HEX%20Support-blue">
+  <img src="https://img.shields.io/badge/Colors-MiniMessage%20%26%20HEX-blue">
 </p>
 
 ---
@@ -31,15 +31,26 @@
 
 ## ✨ Overview
 
-**f0Effects** is a premium-grade reward system for PvP servers. It bridges the gap between gameplay and aesthetics by granting players temporary combat "Potions" and stunning visual animations upon every kill.
+**f0Effects** is a high-performance reward system for PvP networks. It transforms every kill into a strategic advantage and a visual spectacle. With full **MiniMessage** and **HEX** support, it offers deep customization and a polished player experience.
 
-### Key Features:
-* **Dynamic Balancing:** Higher levels grant massive power but for a shorter, high-adrenaline window.
-* **Modern Aesthetics:** Full **HEX Color (&#RRGGBB)** support for a truly custom look.
-* **Zero Lag:** Optimized data handling with **MySQL** or **SQLite** backend.
-* **Total Immersion:** Integrated **BossBar** timers and custom soundscapes.
+### 🚀 Key Features
+* **Modern Formatting:** Powered by **MiniMessage**. Use `<gradient>`, `<rainbow>`, and `<hover>` in messages and GUIs.
+* **Player Empowerment:** A dedicated **Settings GUI** lets players customize volume, performance, and visibility.
+* **Progressive Economy:** Integrated upgrade system where power scales with player investment.
+* **Zero Lag Infrastructure:** Asynchronous data handling with **MySQL** or **SQLite** backends.
+* **Clean UI/UX:** Responsive BossBars and intuitive GUI navigation.
+* **Visual Cosmetics:** Extra kill visuals make every fight feel rewarding.
 
 ---
+
+## ⚙ Advanced Settings GUI
+
+We believe in player comfort. The **Settings Menu** allows users to toggle features based on hardware or preference:
+
+* 🔊 **Dynamic Volume Slider:** 5-step volume control from 0% to 100% for kill sounds.
+* ✨ **Performance Toggles:** Disable other players' particles to boost FPS.
+* 📊 **Interface Control:** Toggle BossBars and Kill Messages on or off.
+* 🥛 **Quick Reset:** Integrated "Milk Bucket" feature to instantly clear active potion effects.
 
 ---
 
@@ -47,75 +58,115 @@
 
 The plugin requires the following dependencies to function properly:
 
-* **Vault** + any economy plugin (e.g. EssentialsX Economy) — handles currency and upgrade system  
-* **PlaceholderAPI** *(optional)* — enables placeholder integration  
-* **Permissions plugin** (e.g. LuckPerms) — manages player permissions  
+* **Vault** + any economy plugin, for example **EssentialsX Economy** — handles currency and upgrades
+* **PlaceholderAPI** *(optional)* — enables placeholder integration
+* **Permissions plugin** (e.g. **LuckPerms**) — manages player permissions
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > Make sure Vault is properly hooked into your economy plugin, otherwise the upgrade system will not work.
+>
+> To use the latest formatting features, ensure your server supports HEX colors (1.16+).
+
+---
 
 ## ⌨ Commands & Permissions
 
-Access the system through a wide variety of aliases: `killeffects`, `ke`, `keffect`, `efectsfromkill`, `efekty`, `effects`, `f0ef`.
+Access the system through these aliases: `killeffects`, `ke`, `keffect`, `efectsfromkill`, `efekty`, `effects`, `f0ef`.
 
-### Player Commands
+### 🕹 Player Commands
 | Command | Description | Permission |
 |:---|:---|:---|
-| `/f0effects` | Opens the main GUI (Effects, Upgrades, Visuals). | `f0effects.use` |
+| `/f0effects` | Opens the main GUI (Effects, Upgrades, Visuals, Settings). | `f0effects.use` |
 
-### Admin Management Commands
+### 💼 Admin Management Commands
 | Command | Description | Permission |
 |:---|:---|:---|
-| `/f0effects reload` | Instantly reloads config, messages, and database. | `f0effects.admin` |
+| `/f0effects reload` | Reloads config, messages, and database. | `f0effects.admin` |
 | `/f0effects set <p> <effect> <lvl>` | Manually set a player's upgrade level for an effect. | `f0effects.admin` |
 | `/f0effects clear <player>` | Clears the currently selected effect for a player. | `f0effects.admin` |
+| `/f0effects about` | Information about the plugin, version, and configuration. | `f0effects.admin` |
 
 > [!NOTE]
-> The `<effect>` argument for the admin command corresponds to the internal names: `SPEED`, `RESISTANCE`, `REGENERATION`, `STRENGTH`.
+> The `<effect>` argument corresponds to the internal names: `SPEED`, `RESISTANCE`, `REGENERATION`, `STRENGTH`.
+
+---
+
+## 🧩 PlaceholderAPI Support
+
+Customizable outputs through `messages.yml`. Use these in TAB, scoreboards, or other integrations.
+
+### 📊 Player Statistics
+| Placeholder | Description | Example |
+|:---|:---|:---|
+| `%f0effects_selected%` | Name of the active kill effect. | `Speed ⚡` |
+| `%f0effects_selected_format%` | Formatted name + level. | `Speed (Lvl 2)` |
+| `%f0effects_selected_duration%` | Active effect duration. | `15s` |
+| `%f0effects_selected_visual%` | Name of the selected cosmetic. | `Blood Blast` |
+
+### 💲 Economy & Levels
+| Placeholder | Description |
+|:---|:---|
+| `%f0effects_level_<KEY>%` | Player's level for a specific effect. |
+| `%f0effects_next_cost_<KEY>%` | Cost for the next upgrade, or `MAX`. |
+| `%f0effects_is_max_<KEY>%` | Returns custom ON/OFF status if maxed. |
+
+### ⚙ Settings & Preferences
+| Placeholder | Description |
+|:---|:---|
+| `%f0effects_setting_volume%` | Current volume level, for example `50%`. |
+| `%f0effects_setting_bossbar%` | Status of the BossBar toggle. |
+| `%f0effects_setting_chat%` | Status of the kill messages toggle. |
 
 ---
 
 ## 📷 Interface & Interaction
 
-The interface is designed for speed. No clutter, just clean navigation to get players back into the fight.
+The interface is designed for speed. No clutter, just clean navigation that gets players back into the fight.
 
 ### Effect Selection GUI
 Players can toggle their active combat benefit with a single click in a clean, modern menu.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/javaw_6wogNPlXTz.png" width="800" alt="Effect Selection GUI"/>
-</p>
-<p align="center">
-  <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/javaw_xb4LLcnzcT.png" width="800" alt="Effect Selection GUI"/>
+  <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/140mm.png" width="800" alt="Effect Selection GUI"/>
 </p>
 
-### Upgrade Shop
+
+### ⬆ Upgrade Shop
 The upgrade menu clearly displays progression, showing exactly what is unlocked, what can be purchased, and the costs involved.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/javaw_C9DqOnKdBo.png" width="800" alt="Upgrade Shop"/>
+  <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/140um.png" width="800" alt="Upgrade Shop"/>
 </p>
 
+### 👀 Visual Selection GUI
+Beyond combat buffs, players can select visual animations in a dedicated GUI.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/140ve.png" width="800" alt="Visual Selection GUI"/>
+</p>
+
+### ⚙ Settings
+Players can change their settings in a dedicated GUI.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/140sm.png" width="800" alt="Visual Selection GUI"/>
+</p>
 ---
 
-## 🛡 Combat Effects (The Meta)
+## 🛡 Combat Effects & Meta
 
-| Effect | Power (Lvl 3) | Duration (Lvl 3) | Total Cost |
+| Effect | Level 3 Power | Duration | Cost |
 |:---|:---|:---|:---|
-| ⚡ **SPEED** | Speed III | 5 Seconds | 14,500$ |
-| 🛡 **RESISTANCE** | Resistance III | 5 Seconds | 18,000$ |
-| ❤ **REGENERATION** | Regen III | 5 Seconds | 21,500$ |
-| ⚔ **STRENGTH** | Strength III | 5 Seconds | 25,000$ |
+| ⚡ **SPEED** | Speed III | 5s | 14,500$ |
+| 🛡 **RESISTANCE** | Resistance III | 5s | 18,000$ |
+| ❤ **REGENERATION** | Regen III | 5s | 21,500$ |
+| ⚔ **STRENGTH** | Strength III | 5s | 25,000$ |
 
 ---
 
 ## 👁 Visual Cosmetics
 
-Make every kill a spectacle. Beyond combat buffs, players can select visual animations in a dedicated GUI.
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/javaw_0JtG4W0P57.png" width="800" alt="Visual Selection GUI"/>
-</p>
+Make every kill a spectacle. These visual effects turn combat into something memorable.
 
 **Featured Visuals:**
 * ⚡ **Lightning Bolt:** Strikes the ground with a thunderous roar.
@@ -128,32 +179,32 @@ Make every kill a spectacle. Beyond combat buffs, players can select visual anim
 
 ## ⚙ Technical Highlights
 
-### Dynamic BossBar
-When an effect is triggered, an elegant BossBar appears at the top of the screen to act as a countdown timer.
+### 🐉 Dynamic BossBar
+When an effect is triggered, an elegant BossBar appears at the top of the screen and acts as a countdown timer.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/jaku49/f0Effects/main/images/javaw_dbVw7VrrTr.png" width="900" alt="BossBar Display"/>
 </p>
 
-### PlaceholderAPI Support
-* `%f0effects_selected%` — Active effect name.
-* `%f0effects_selected_format%` — Formatted name + level.
-* `%f0effects_level_<EFFECT>%` — Current level of a specific perk.
-
 ---
 
 ## 🚀 Roadmap
 
-- [x] SQLite support
-- [x] Full MySQL Cross-Server Support
+- [x] Full MySQL / SQLite support
+- [x] MiniMessage & HEX support
+- [x] Advanced Settings GUI
+- [x] Multi-language support (English, Polish)
+- [x] Visual effects system
 - [x] Admin `set` and `clear` command system
-- [X] Visual effects system
+- [x] Particle customization
+- [x] Settings menu
+- [x] Transfer remaining messages to config
+- [ ] Kill streak system
+- [ ] WorldGuard region blacklist
 - [ ] Effect cooldown system
+- [ ] Custom kill messages (ActionBars)
 - [ ] Per-arena configuration
-- [X] Particle customization
-- [X] Transferring the remaining messages to the config
-- [ ] Add support for Polish (the author's native language) and German.
-
+- [x] Add support for German and Polish
 
 ---
 
